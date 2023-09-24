@@ -1,0 +1,11 @@
+D:\Course\Capstone\MajorMapperMain\Assets\Samples\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.csproj.AssemblyReference.cache
+D:\Course\Capstone\MajorMapperMain\Assets\Samples\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.csproj.CoreCompileInputs.cache
+D:\Course\Capstone\MajorMapperMain\Assets\StreamingAssets\HotFix_Project.dll
+D:\Course\Capstone\MajorMapperMain\Assets\StreamingAssets\HotFix_Project.pdb
+D:\Course\Capstone\MajorMapperMain\Assets\Samples\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.csproj.CopyComplete
+D:\Course\Capstone\MajorMapperMain\Assets\Samples\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.dll
+D:\Course\Capstone\MajorMapperMain\Assets\Samples\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.pdb
+D:\Course\Capstone\MajorMapperMain\Assets\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.csproj.AssemblyReference.cache
+D:\Course\Capstone\MajorMapperMain\Assets\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.csproj.CoreCompileInputs.cache
+D:\Course\Capstone\MajorMapperMain\Assets\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.dll
+D:\Course\Capstone\MajorMapperMain\Assets\ILRuntime\2.1.0\Demo\HotFix_Project~\obj\Release\HotFix_Project.pdb
