@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b913168984930064280b26b63f358e30, type: 3}
+  m_Name: Body 2
+  m_EditorClassIdentifier: 
+  bodyPartName: Orange Body
+  bodyPartAnimationID: 2
+  allBodyPartAnimations:
+  - {fileID: 7400000, guid: f405e26c26166534baf1a271cd76a80e, type: 2}
+  - {fileID: 7400000, guid: 016204120c1266c418b65210ae36ccc6, type: 2}
+  - {fileID: 7400000, guid: 691975c2b2052c546b9d28fb8f18665d, type: 2}
+  - {fileID: 7400000, guid: 89a5d34a3fe58234d8895021115cd24b, type: 2}
+  - {fileID: 7400000, guid: 2ef3f9a1c0490ad41a18211a1688e815, type: 2}
+  - {fileID: 7400000, guid: 2e0c2aaa37e8aab45bb066230dd94bed, type: 2}
+  - {fileID: 7400000, guid: 6d44331cfc7f938489177ba7dfe938e3, type: 2}
+  - {fileID: 7400000, guid: 564e003c07ec0d34d9366abdd3d11624, type: 2}

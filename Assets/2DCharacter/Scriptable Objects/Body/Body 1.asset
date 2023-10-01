@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b913168984930064280b26b63f358e30, type: 3}
+  m_Name: Body 1
+  m_EditorClassIdentifier: 
+  bodyPartName: Pink Body
+  bodyPartAnimationID: 1
+  allBodyPartAnimations:
+  - {fileID: 7400000, guid: 457f1788fd92c3443892e150649e20a8, type: 2}
+  - {fileID: 7400000, guid: a78ece263276e2543867ba033d8813a9, type: 2}
+  - {fileID: 7400000, guid: cf000d0d0ac862d498ac195a7fcef708, type: 2}
+  - {fileID: 7400000, guid: ad5d062921f336a44be46692945961b7, type: 2}
+  - {fileID: 7400000, guid: d6e4f9c28ce43cd4f9d9f4570b97b817, type: 2}
+  - {fileID: 7400000, guid: c1afe8b577694064c8c359aa95060ac9, type: 2}
+  - {fileID: 7400000, guid: 98c923af0a4df4b48a9b79f7cedde85d, type: 2}
+  - {fileID: 7400000, guid: 9d3c22ca8680fdb42aa9633d43acc9a3, type: 2}

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b913168984930064280b26b63f358e30, type: 3}
+  m_Name: Outfit 2
+  m_EditorClassIdentifier: 
+  bodyPartName: Robot Outfit
+  bodyPartAnimationID: 2
+  allBodyPartAnimations:
+  - {fileID: 7400000, guid: 29c81012bd9c5d44abce0bd7f2fa4e9f, type: 2}
+  - {fileID: 7400000, guid: 6df34e93f5753b74484aa0ccc512b044, type: 2}
+  - {fileID: 7400000, guid: 7d9b6ccab91715f46a672c5d8192119d, type: 2}
+  - {fileID: 7400000, guid: 89fcfb1c62f8dbe4d90a49f4a180c768, type: 2}
+  - {fileID: 7400000, guid: 73001ad563a44764f9f8ad34c9c4e33d, type: 2}
+  - {fileID: 7400000, guid: 96c816407f9727645a5bc8e553f63f39, type: 2}
+  - {fileID: 7400000, guid: 5ca6b8755d16a4b45a0f9d43865bbb25, type: 2}
+  - {fileID: 7400000, guid: c4e1d5ad1854dfd4fab994674411ad33, type: 2}
