@@ -6,7 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/2DCharacter/Scenes/CharacterCreator.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/2DCharacter/Scenes/Overworld.unity
+    guid: d73f6401d63e3a0488d081ebb55a349c
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 99d3dba6e8fe53d41998fad32ed964f7, type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 6c8888a446e56fb498b21ada78876bde, type: 2}
