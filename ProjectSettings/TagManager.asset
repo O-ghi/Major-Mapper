@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ghost
+  - Stair
+  - Wall
+  - Map
+  - VerticalWall
+  - HorizontalWall
   layers:
   - Default
   - TransparentFX
@@ -40,4 +46,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3402619487
+    locked: 0
+  - name: Foreground
+    uniqueID: 3050654683
     locked: 0
