@@ -30,8 +30,8 @@ public class LevelController : MonoBehaviour
         size = 6;
         idle = true;
         ghosties = new List<Character>();
-        verticalWall = new int[18, 9];
-        horizontalWall = new int[18, 9];
+        verticalWall = new int[20, 20];
+        horizontalWall = new int[20, 20];
     }
 
     void Start()
@@ -40,7 +40,7 @@ public class LevelController : MonoBehaviour
         foreach (Transform t in transform)
         {
             int x = (int) t.localPosition.x;
-            int y = (int) t.localPosition.y;
+            int y = (int) t.localPosition.y + 1;
 
             switch (t.tag)
             {
@@ -51,7 +51,7 @@ public class LevelController : MonoBehaviour
                     ghosties.Add(t.GetComponent<Character>());
                     break;
                 case "Stair":
-                    stairPosition = t.localPosition;
+                    stairPosition = t.localPosition - new Vector3(0,1.5f,0);
                     if (x == 0) stairDirection = Vector3.left;
                     if (y == 0) stairDirection = Vector3.down;
                     if (x == n)
@@ -266,19 +266,19 @@ public class LevelController : MonoBehaviour
     {
         int x = (int)position.x;
         int y = (int)position.y;
-        int n = size - 1;
+        int n = 20 - 1;
 
         if (direction == Vector3.up)
-            return y == n || horizontalWall[x, y + 1] == 1;
+            return y == n || horizontalWall[x, y + 1] == 1 || verticalWall[x, y +1 ] == 1;
 
         if (direction == Vector3.down)
-            return y == 0 || horizontalWall[x, y] == 1;
+            return y == 0 || horizontalWall[x, y-1] == 1 || verticalWall[x, y -1] == 1;
 
         if (direction == Vector3.left)
-            return x == 0 || verticalWall[x, y] == 1;
+            return x == 0 || verticalWall[x -1, y] == 1 || horizontalWall[x - 1, y] == 1;
 
         if (direction == Vector3.right)
-            return x == n || verticalWall[x + 1, y] == 1;
+            return x == n || verticalWall[x + 1, y] == 1 || horizontalWall[x + 1, y] == 1;
 
 
         return true;
