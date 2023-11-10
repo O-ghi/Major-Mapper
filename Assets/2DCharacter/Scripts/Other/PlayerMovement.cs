@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,26 +9,28 @@ public class PlayerMovement : MonoBehaviour
     // ~~ 2. Updates Animator to Play Idle & Walking Animations
 
     private float speed = 4f;
-    private Rigidbody2D myRigidbody;
+    private CharacterController controller;
     private Vector3 playerMovement;
     private Animator animator;
+    private PlayerInput playerInput;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        myRigidbody = GetComponent<Rigidbody2D>();
+        controller = GetComponent<CharacterController>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if(DialogueManager.GetInstance().dialogueIsPlaying)
-        {
-            return;
-        }
-        playerMovement = Vector3.zero;
-        playerMovement.x = Input.GetAxisRaw("Horizontal");
-        playerMovement.y = Input.GetAxisRaw("Vertical");
+        //if(DialogueManager.GetInstance().dialogueIsPlaying)
+        //{
+        //    return;
+        //}
+        playerMovement = InputManager.GetInstance().GetMoveDirection() ;
+        controller.Move(playerMovement * speed * Time.deltaTime);
 
+        //playerMovement.x = Input.GetAxisRaw("Horizontal");
+        //playerMovement.y = Input.GetAxisRaw("Vertical");
         UpdateAnimationAndMove();
     }
 
@@ -35,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerMovement != Vector3.zero)
         {
-            MoveCharacter();
             animator.SetFloat("moveX", playerMovement.x);
             animator.SetFloat("moveY", playerMovement.y);
             animator.SetBool("moving", true);
@@ -46,8 +48,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MoveCharacter()
+    private void OnTriggerEnter(Collider other)
     {
-        myRigidbody.MovePosition(transform.position + playerMovement * speed * Time.deltaTime);
+        Debug.Log(other.gameObject.name);
     }
 }

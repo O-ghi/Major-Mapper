@@ -12,5 +12,8 @@ EditorBuildSettings:
     path: Assets/2DCharacter/Scenes/Overworld.unity
     guid: d73f6401d63e3a0488d081ebb55a349c
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 0f574715474f5d04d8bf0b54f91a0479, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 7b755d915fc34494ba3ba182c3501487, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: d6860d9127a66c7478b673c81b8fe1a7, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 99d3dba6e8fe53d41998fad32ed964f7, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 6c8888a446e56fb498b21ada78876bde, type: 2}

@@ -1,0 +1,14 @@
+ManifestFileVersion: 0
+CRC: 310533096
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: scenes/campingscene
+      Dependencies:
+        Dependency_0: ui/touchpanel
+    Info_1:
+      Name: ui/touchpanel
+      Dependencies: {}
+    Info_2:
+      Name: ui/dialogpanel
+      Dependencies: {}

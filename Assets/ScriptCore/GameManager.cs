@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,18 +10,22 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         MonoBehaviourLogic.CreateInstance();
+
+        //Create Manager
+        PanelManager.CreateInstance();
+        DialogueManager.CreateInstance();
+        InputManager.CreateInstance();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GameObject gameObject = new GameObject();
-
-            EntityBase entity = null;
-            entity = new PlayerEntity(gameObject) as EntityBase;
-            EntityBaseLogic.Singleton.AddComponentEntity(entity.gameObject.GetInstanceID(), entity);
+            var obj = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "scenes/campingscene"));
+            var scenes = obj.GetAllScenePaths();
+            //obj.LoadAsset("campingscene", typeof(Scene));
+            SceneManager.LoadScene(Path.GetFileNameWithoutExtension(scenes[0]));
         }
     }
 }
