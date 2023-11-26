@@ -1,3 +1,4 @@
+using Ink.Parsed;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class DialogueTrigger : MonoBehaviour
     //[SerializeField] private GameObject visualCue;
 
     [Header("Ink JSON")]
-    [SerializeField] private TextAsset inkJSON;
+    [SerializeField] public TextAsset inkJSON;
 
     private bool playerInRange;
 
@@ -25,7 +26,6 @@ public class DialogueTrigger : MonoBehaviour
             //visualCue.SetActive(true);
             if(InputManager.GetInstance().GetInteractPressed()) 
             {
-                DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
             }
         }
         else
@@ -33,26 +33,27 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("OnTriggerEnter ");
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             playerInRange = true;
 
         }
     }
 
-
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         Debug.Log("OnTriggerExit ");
 
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             playerInRange = false;
-             StartCoroutine(DialogueManager.GetInstance().ExitDialogueMode());
+            if (DialogueManager.GetInstance().dialogueIsPlaying)
+            StartCoroutine(DialogueManager.GetInstance().ExitDialogueMode());
 
         }
     }
+
 }

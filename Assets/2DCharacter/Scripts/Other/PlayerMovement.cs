@@ -1,3 +1,4 @@
+using Ink.Parsed;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
     // ~~ 1. Controls All Player Movement
     // ~~ 2. Updates Animator to Play Idle & Walking Animations
 
-    private float speed = 4f;
-    private CharacterController controller;
+    private float speed = 5f;
+    private Rigidbody2D rigidbody2D;
     private Vector3 playerMovement;
     private Animator animator;
     private PlayerInput playerInput;
@@ -17,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -27,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         //    return;
         //}
         playerMovement = InputManager.GetInstance().GetMoveDirection() ;
-        controller.Move(playerMovement * speed * Time.deltaTime);
+        rigidbody2D.MovePosition(transform.position + playerMovement * speed * Time.fixedDeltaTime);
 
         //playerMovement.x = Input.GetAxisRaw("Horizontal");
         //playerMovement.y = Input.GetAxisRaw("Vertical");
@@ -48,8 +49,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(other.gameObject.name);
+
     }
 }
