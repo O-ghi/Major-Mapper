@@ -57,6 +57,7 @@ public class InputManager : ManagerTemplate<InputManager>, IGameActions
     {
         if (context.performed)
         {
+            GameEventManager.Singleton.Interact();
             submitPressed = true;
         }
         else if (context.canceled)
@@ -116,7 +117,8 @@ public class InputManager : ManagerTemplate<InputManager>, IGameActions
     {
         if (context.performed)
         {
-            interactPressed = true;
+            GameEventManager.Singleton.Interact();
+            interactPressed= true;
         }
         else if (context.canceled)
         {

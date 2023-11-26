@@ -15,6 +15,12 @@ public abstract class EntityBase
         this.gameObject = _obj;
         this.name = _obj.name;
         this.instanceId = _obj.GetInstanceID();
+        EntityManager.AddEntity(this);
+    }
+
+    public void InitEntity()
+    {
+        EntityBaseLogic.Singleton.AddComponentEntity(this.gameObject.GetInstanceID(), this);
     }
     //Override
     protected virtual void OnUpdate()
@@ -31,6 +37,7 @@ public abstract class EntityBase
     public void Update() 
     {
         OnUpdate();
+
     }
 
 
@@ -38,4 +45,6 @@ public abstract class EntityBase
     {
 
     }
+
+
 }

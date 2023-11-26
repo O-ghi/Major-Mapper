@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 
 public class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
             return false;
 
         GameObject singleton = new GameObject(string.Format("_{0}", typeof(T).ToString()));
+        
         singleton.AddComponent<T>();
 
         return true;

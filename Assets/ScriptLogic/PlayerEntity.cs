@@ -11,6 +11,5 @@ public class PlayerEntity : EntityBase
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        Debug.Log("Player Entity");
     }
 }

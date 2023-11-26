@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "com.ourpalm.ilruntime": "2.1.0",
+    "com.unity.2d.tilemap.extras": "https://github.com/Unity-Technologies/2d-extras.git#master",
     "com.unity.adaptiveperformance.google.android": "1.2.1",
     "com.unity.adaptiveperformance.samsung.android": "5.0.0",
     "com.unity.assetbundlebrowser": "https://github.com/Unity-Technologies/AssetBundles-Browser.git",
@@ -22,6 +23,7 @@
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.inputsystem": "1.5.1",
     "com.unity.shadergraph": "12.1.11",
+    "com.unity.sharp-zip-lib": "https://github.com/needle-mirror/com.unity.sharp-zip-lib.git",
     "com.unity.test-framework": "1.1.31",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.timeline": "1.6.4",
@@ -57,7 +59,6 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.unity.2d.tilemap.extras": "https://github.com/Unity-Technologies/2d-extras.git#master"
+    "com.unity.modules.xr": "1.0.0"
   }
 }

@@ -206,7 +206,7 @@ public class ManagerLogic : SingletonTemplate<ManagerLogic>
 
     public void OnDestroy()
     {
-#if PGAME
+#if Main
         for (int i = 0; i < listManagerDestroy.Count; i++)
         {
             var uiObj = listManagerDestroy.ElementAt(i).Value;
