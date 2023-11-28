@@ -8,11 +8,13 @@ public class SceneData
     public List<TaskData> Tasks { get; set; }
     public bool SceneStatus = false;
     public int _TaskCore;
-    public SceneData(int taskCore)
+    public PersonalityBase Personality;
+    public SceneData(int taskCore, PersonalityBase personality)
     {
         Inventory = new Dictionary<int, Item>();
         Tasks = new List<TaskData> ();
         _TaskCore = taskCore;
+        Personality = personality;
     }
     public void AddItem(ItemCfg itemcfg)
     {
@@ -76,6 +78,7 @@ public class SceneData
         }
         return Tasks[Tasks.Count -1];
     }
+     
 }
 
 public class Item

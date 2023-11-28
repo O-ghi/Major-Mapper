@@ -38,6 +38,10 @@ public class PanelManager : ManagerTemplate<PanelManager>
 
     public static UIBase SetPanel(string uiName)
     {
+        if (PanelExits(uiName))
+        {
+           return OpenPanel(uiName);
+        }
         GameObject panel = LoadPanel(uiName);
 
         var panelLogic = System.Activator.CreateInstance(Type.GetType(uiName)) as UIBase;
@@ -50,11 +54,7 @@ public class PanelManager : ManagerTemplate<PanelManager>
     }
     public static GameObject LoadPanel (string uiName)
     {
-        if(PanelExits(uiName))
-        {
-            return OpenPanel(uiName).gameObject;
-            
-        }
+        
         string uipath = Path.Combine(Application.streamingAssetsPath ,string.Format( "ui/{0}", uiName.ToLower()));
         //Debug.Log("_________Chay tu day! + uipath| " + uipath);
         AssetBundle assetBundle = AssetBundle.LoadFromFile(uipath);
@@ -65,7 +65,7 @@ public class PanelManager : ManagerTemplate<PanelManager>
         //Debuger.Log("Setpanel uipath :" + uipath + "  ||| go is " + (go != null));
         go.name = uiName;
         go.transform.SetParent(Parent);
-        go.transform.position = Vector3.zero;
+        go.transform.localPosition = Vector3.zero;
 
         return go ;
     }

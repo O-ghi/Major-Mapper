@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2068747036
+CRC: 316566128
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -8,10 +8,16 @@ AssetBundleManifest:
     Info_1:
       Name: scenes/campingscene
       Dependencies:
-        Dependency_0: ui/touchpanel
+        Dependency_0: dialoguetext
     Info_2:
       Name: ui/touchpanel
       Dependencies: {}
     Info_3:
       Name: ui/dialoguepanel
+      Dependencies: {}
+    Info_4:
+      Name: ui/taskshowpanel
+      Dependencies: {}
+    Info_5:
+      Name: dialoguetext
       Dependencies: {}

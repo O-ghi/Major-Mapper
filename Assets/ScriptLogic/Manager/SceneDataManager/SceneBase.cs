@@ -8,6 +8,7 @@ public abstract class SceneBase
     public GameObject _bornPos;
     public SceneData _sceneData;
     public TaskCoreCfg _taskCoreCfg;
+    public string _sceneName;
     //Transform - Instance
 
     public Transform transform()
@@ -25,6 +26,8 @@ public abstract class SceneBase
     public SceneBase(string sceneName, TaskCoreCfg taskCoreCfg)
     {
         sceneName = this.ToString();
+        _sceneName = sceneName.ToLower();
+
         _taskCoreCfg = taskCoreCfg;
         Init(sceneName);
     }
@@ -33,9 +36,10 @@ public abstract class SceneBase
         GameObject obj = new GameObject(string.Format("_{0}", sceneName));
         GameObject.DontDestroyOnLoad(obj);
         transformDic = obj.transform;
-        _sceneData = new SceneData(_taskCoreCfg.ID);
+        _sceneData = new SceneData(_taskCoreCfg.ID, new HollandPersonality());
 
     }
 
+    
     protected virtual void OnStart() { }
 }

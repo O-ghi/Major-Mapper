@@ -155,7 +155,7 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "Xin ch\xE0o m\u1ECDi ng\u01B0\u1EDDi"
@@ -574,7 +574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &282787338366124715
 RectTransform:
   m_ObjectHideFlags: 0
@@ -594,7 +594,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -430, y: 125}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 60, y: 124}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &1629991330980855662
 CanvasRenderer:
@@ -693,7 +693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3678950032553978840
 RectTransform:
   m_ObjectHideFlags: 0
@@ -713,7 +713,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -430, y: 250}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 836, y: 124}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7582422325593404249
 CanvasRenderer:
@@ -817,7 +817,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2691243376917388386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -50, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -846,7 +846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &149542432912411043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -866,7 +866,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -430, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 60, y: 124}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3786988804562611066
 CanvasRenderer:
@@ -980,10 +980,10 @@ RectTransform:
   m_Father: {fileID: 149542432912411043}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 30, y: -62}
+  m_SizeDelta: {x: 0, y: 64}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &985226019743611505
 CanvasRenderer:
@@ -1014,7 +1014,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 2af1f748e633ffe48b9bfa8acaa5374d, type: 3}
+    m_Font: {fileID: 12800000, guid: dea49d18dbd85c04aa376a93a56967dc, type: 3}
     m_FontSize: 53
     m_FontStyle: 0
     m_BestFit: 0
@@ -1026,7 +1026,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!114 &6672656010303215233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,10 +1075,10 @@ RectTransform:
   m_Father: {fileID: 3678950032553978840}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 30, y: -62}
+  m_SizeDelta: {x: 776, y: 64}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8440846953491727831
 CanvasRenderer:
@@ -1109,7 +1109,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 2af1f748e633ffe48b9bfa8acaa5374d, type: 3}
+    m_Font: {fileID: 12800000, guid: dea49d18dbd85c04aa376a93a56967dc, type: 3}
     m_FontSize: 53
     m_FontStyle: 0
     m_BestFit: 0
@@ -1121,7 +1121,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Core Flow 3: Booking video call'
 --- !u!114 &212756672702209828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,10 +1170,10 @@ RectTransform:
   m_Father: {fileID: 282787338366124715}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 30, y: -62}
+  m_SizeDelta: {x: 0, y: 64}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2043816851217645109
 CanvasRenderer:
@@ -1204,7 +1204,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 2af1f748e633ffe48b9bfa8acaa5374d, type: 3}
+    m_Font: {fileID: 12800000, guid: dea49d18dbd85c04aa376a93a56967dc, type: 3}
     m_FontSize: 53
     m_FontStyle: 0
     m_BestFit: 0
@@ -1216,7 +1216,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!114 &2773072335410650910
 MonoBehaviour:
   m_ObjectHideFlags: 0

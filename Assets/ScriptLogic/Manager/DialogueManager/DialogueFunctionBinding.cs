@@ -23,4 +23,25 @@ public class DialogueFunctionBinding
 		GameEventManager.Singleton.AcceptTask(taskData);
 
 	}
+
+    public void SubmitTaskBind(Story story, TaskData taskData)
+    {
+        story.BindExternalFunction("submitTask", () => SubmitTask(taskData));
+    }
+
+    public void SubmitTaskUnBind(Story story)
+    {
+        story.UnbindExternalFunction("submitTask");
+    }
+
+    public void SubmitTask(TaskData taskData)
+    {
+        Debug.Log("binding submitTask");
+        if (taskData == null)
+        {
+            return;
+        }
+        GameEventManager.Singleton.SubmitTask(taskData);
+
+    }
 }

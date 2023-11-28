@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2037437401
+CRC: 3312099833
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b8556c4ce09ca2a6f0451e285fa5840b
+    Hash: 3d1ee01d1ffe6aa2d14b382e3d5db90e
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4ce6faa5f450a62c7fc160436ccf5cd5
+    Hash: a0b61dda4fa9d1d80a1bbc96e5081055
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,9 +25,9 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 50
   Script: {instanceID: 0}
-- Class: 61
+- Class: 60
   Script: {instanceID: 0}
-- Class: 65
+- Class: 61
   Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
@@ -42,23 +42,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
 - Class: 114
-  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: b913168984930064280b26b63f358e30, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 44e001e73e3236d4b9be9408cd0f4156, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
 - Class: 114
@@ -69,8 +59,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 39fa3d8997a24136984ca6e2c99902bc, type: 3}
 - Class: 114
@@ -95,14 +83,6 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
-- Class: 222
-  Script: {instanceID: 0}
-- Class: 223
-  Script: {instanceID: 0}
-- Class: 224
-  Script: {instanceID: 0}
-- Class: 19719996
-  Script: {instanceID: 0}
 - Class: 156049354
   Script: {instanceID: 0}
 - Class: 483693784
@@ -113,4 +93,4 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Scenes/CampingScene.unity
 Dependencies:
-- D:/Course/Capstone/MajorMapperMain/AssetBundles/Android/ui/touchpanel
+- D:/Course/Capstone/MajorMapperMain/AssetBundles/Android/dialoguetext

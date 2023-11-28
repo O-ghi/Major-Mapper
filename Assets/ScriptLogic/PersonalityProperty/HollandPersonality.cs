@@ -11,6 +11,10 @@ public class HollandPersonality : PersonalityBase
     private float enterprising;
     private float conventional;
 
+    public HollandPersonality()
+    {
+
+    }
     public HollandPersonality(float realistic, float investigative, float artistic, float social, float enterprising, float conventional)
     {
         this.Realistic = realistic;
@@ -27,4 +31,14 @@ public class HollandPersonality : PersonalityBase
     public float Social { get => social; set => social = value; }
     public float Enterprising { get => enterprising; set => enterprising = value; }
     public float Conventional { get => conventional; set => conventional = value; }
+}
+
+public enum HollandType
+{
+    REALISTIC = 1,
+    INVESTIGATIVE,
+    ARTISTIC,
+    SOCIAL,
+    ENTERPRISING,
+    CONVENTIONAL
 }

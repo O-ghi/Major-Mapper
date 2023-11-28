@@ -112,7 +112,7 @@ public class SceneManager : ManagerTemplate<SceneManager>
 
         while (true)
         {
-            ;
+            
             var scene = System.Activator.CreateInstance(typeof(CampingScene), config.Scene, config) as SceneBase;
             if (scene == null)
             {

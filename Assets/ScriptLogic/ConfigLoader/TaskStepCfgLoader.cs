@@ -7,10 +7,11 @@ public class TaskStepCfg
 {
     public int ID;
     public int Step;
+    public string Name;
     public string Dialogue;
     public string ItemNeeds;
     public string SubmitNPC;
-    public float Point;
+    public float Points;
 }
 public class TaskStepCfgLoader : ConfigLoaderBase
 {

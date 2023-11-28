@@ -1,4 +1,5 @@
 using Ink.Runtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,7 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private Text dialogueText;
-
+    private List<TextAsset> textAssets;
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
     private Text[] choicesText;
@@ -30,6 +31,7 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
         ManagerLogic.Singleton.AddManagerUpdate(this.GetType(), Update);
         dialogueFunctionBinding = new DialogueFunctionBinding();
         m_eventTriggerListeners = new List<TriggerListener>();
+        textAssets = new List<TextAsset>();
     }
 
     public static DialogueManager GetInstance()
@@ -56,7 +58,7 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
         // NOTE: The 'currentStory.currentChoiecs.Count == 0' part was to fix a bug after the Youtube video was made
         if (canContinueToNextLine
             && currentStory.currentChoices.Count == 0
-            && InputManager.GetInstance().GetSubmitPressed())
+            && InputManager.GetInstance().GetInteractPressed())
         {
             ContinueStory();
         }
@@ -64,6 +66,7 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
 
     public void EnterDialogueMode(TextAsset inkJSON, TaskData taskData = null)
     {
+
         dialoguePanel = PanelManager.SetPanel("DialoguePanel").gameObject;
         dialoguePanel.transform.localPosition = Vector3.zero;
         dialoguePanel.SetActive(false);
@@ -77,6 +80,15 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
             SetButton(choice.transform.GetOrAddComponent<TriggerListener>(), EventTriggerType.PointerClick, MakeChoice);
         }
         currentStory = new Story(inkJSON.text);
+
+        if (textAssets.Contains(inkJSON))
+        {
+            currentStory.ChoosePathString("openagain");
+        } else
+        {
+            textAssets.Add(inkJSON);
+
+        }
 
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
@@ -171,6 +183,13 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
 
         // actions to take after the entire line has finished displaying
         DisplayChoices();
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < choices.Length; i++)
+        {
+            choices[i].GetComponent<HorizontalLayoutGroup>().enabled = false;
+            yield return new WaitForEndOfFrame();
+            choices[i].GetComponent<HorizontalLayoutGroup>().enabled = true;
+        }
 
         canContinueToNextLine = true;
     }
@@ -192,7 +211,13 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
         {
             choices[index].gameObject.SetActive(true);
             choicesText[index].text = choice.text;
+
+            choices[index].GetComponent<HorizontalLayoutGroup>().enabled = false;
+
+            choices[index].GetComponent<HorizontalLayoutGroup>().enabled = true;
+
             index++;
+
         }
         // go through the remaining choices the UI supports and make sure they're hidden
         for (int i = index; i < choices.Length; i++)

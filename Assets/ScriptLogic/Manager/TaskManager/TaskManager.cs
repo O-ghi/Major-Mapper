@@ -19,12 +19,24 @@ public class TaskManager : ManagerTemplate<TaskManager>
 
     public void AcceptTask(TaskData task)
     {
-        Debug.Log("AcceptTask " + task.task.ID + " | " +  task.task.Step);
-        ChangeStatusTask(task, StatusTask.InProgress);
+        Debug.Log("AcceptTask " + task.task.ID + " | " + task.task.Step);
+        TaskShowPanel taskShowPanel = PanelManager.SetPanel("TaskShowPanel") as TaskShowPanel;
+        taskShowPanel.SetTitle(task.task.Name);
+        if (string.IsNullOrEmpty(task.task.ItemNeeds))
+        {
+            ChangeStatusTask(task, StatusTask.CanSubmit);
+
+        } else
+        {
+            ChangeStatusTask(task, StatusTask.InProgress);
+
+        }
     }
     public void SubmitTask(TaskData task)
     {
         Debug.Log("SubmitTask " + task.task.ID + " | " + task.task.Step);
+        //GetReward
+        ChangeStatusTask(task, StatusTask.Complete);
 
     }
 

@@ -51,7 +51,7 @@ public class LevelController : MonoBehaviour
                     ghosties.Add(t.GetComponent<Character>());
                     break;
                 case "Stair":
-                    stairPosition = t.localPosition - new Vector3(0,1.5f,0);
+                    stairPosition = t.localPosition - new Vector3(0,0.5f,0);
                     if (x == 0) stairDirection = Vector3.left;
                     if (y == 0) stairDirection = Vector3.down;
                     if (x == n)
@@ -83,11 +83,11 @@ public class LevelController : MonoBehaviour
         if (!idle) return;
         Vector3 direction = Vector3.zero;
 
-        if (Input.GetKeyDown("up")) direction = Vector3.up;
-        else if (Input.GetKeyDown("down")) direction = Vector3.down;
-        else if (Input.GetKeyDown("left")) direction = Vector3.left;
-        else if (Input.GetKeyDown("right")) direction = Vector3.right;
-
+        //if (Input.GetKeyDown("up")) direction = Vector3.up;
+        //else if (Input.GetKeyDown("down")) direction = Vector3.down;
+        //else if (Input.GetKeyDown("left")) direction = Vector3.left;
+        //else if (Input.GetKeyDown("right")) direction = Vector3.right;
+        direction = InputManager.GetInstance().GetMoveDirection();
         if (direction != Vector3.zero)
             StartCoroutine(Action(direction));
     }

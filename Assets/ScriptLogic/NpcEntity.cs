@@ -37,7 +37,7 @@ public class NpcEntity : EntityBase
 
     private void InteractPressed()
     {
-        if (!playerIsNear)
+        if (!playerIsNear || DialogueManager.GetInstance().dialogueIsPlaying)
         {
             return;
         }
@@ -55,7 +55,8 @@ public class NpcEntity : EntityBase
                 if (string.IsNullOrEmpty(taskData.task.ItemNeeds))
                 {
                     Debug.Log("Mở Dialouge " + taskData.task.Dialogue);
-                    DialogueManager.GetInstance().EnterDialogueMode(transform.GetComponent<DialogueTrigger>().inkJSON, taskData);
+                    var inkJson = AssetLoadManager.LoadAsset<TextAsset>("dialoguetext", taskData.task.Dialogue);
+                    DialogueManager.GetInstance().EnterDialogueMode(inkJson, taskData);
                     //DialogueManager.Instance.EnterDialogueMode();
                 }
 
@@ -63,7 +64,10 @@ public class NpcEntity : EntityBase
             else if (taskData.statusTask == StatusTask.CanSubmit)
             {
                 //SubmitEvent
-                GameEventManager.Singleton.SubmitTask(taskData);
+                var inkJson = AssetLoadManager.LoadAsset<TextAsset>("dialoguetext", taskData.task.Dialogue);
+
+                DialogueManager.GetInstance().EnterDialogueMode(inkJson, taskData);
+
 
             } else if (taskData.statusTask == StatusTask.InProgress)
             {
@@ -73,6 +77,5 @@ public class NpcEntity : EntityBase
         {
             Debug.Log("Mở Dialogue bình thường");
         }
-
     }
 }
