@@ -149,6 +149,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Modern_UI_Style_1_48x48_1
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 1800
+        width: 54
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da7ca610df08716429874c76f4e58664
+      internalID: -528965007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Modern_UI_Style_1_48x48_2
+      rect:
+        serializedVersion: 2
+        x: 1380
+        y: 2019
+        width: 72
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 9, y: 9, z: 9, w: 12}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e1a328cc9c35da479955b0884b96fa1
+      internalID: 1904715828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -161,6 +203,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Modern_UI_Style_1_48x48_0: -1882875770
+      Modern_UI_Style_1_48x48_1: -528965007
+      Modern_UI_Style_1_48x48_2: 1904715828
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
