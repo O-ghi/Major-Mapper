@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3913114731
+CRC: 2040841477
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: eaf1e3d2adb44389dfcd159ba6b3edb2
+    Hash: 47c26a32df47aa133204149715d07bdf
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3aa7ee3a2227dbf1b65d5f88ea91ecca
+    Hash: f0c00ca6e7399f636b0bd3f5eb3e5438
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -85,4 +85,4 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Scenes/Level 3 (MM).unity
 Dependencies:
-- "G:/K\xEC 9/Project_Create_Character_Demo/Major-Mapper/AssetBundles/Android/ui/touchpanel"
+- D:/Course/Capstone/MajorMapperMain/AssetBundles/android/ui/touchpanel

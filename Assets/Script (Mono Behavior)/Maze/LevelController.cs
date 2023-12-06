@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class LevelController : MonoBehaviour
 {
@@ -10,8 +13,7 @@ public class LevelController : MonoBehaviour
         public List<Vector3> ghosties = new List<Vector3>();
     }
 
-    public GameObject winOverlay;
-    public GameObject loseOverplay;
+    public Transform winOverlay;
 
     public bool idle;
     public Character player;
@@ -32,6 +34,13 @@ public class LevelController : MonoBehaviour
         ghosties = new List<Character>();
         verticalWall = new int[20, 20];
         horizontalWall = new int[20, 20];
+        m_eventTriggerListeners = new List<TriggerListener>();
+        var taskshowpanel = PanelManager.GetPanel("TaskShowPanel");
+        if (taskshowpanel != null )
+        {
+            taskshowpanel.gameObject.SetActive(false);
+        }
+        winOverlay.gameObject.SetActive(false);
     }
 
     void Start()
@@ -39,8 +48,8 @@ public class LevelController : MonoBehaviour
         int n = size;
         foreach (Transform t in transform)
         {
-            int x = (int) t.localPosition.x;
-            int y = (int) t.localPosition.y + 1;
+            int x = (int)t.localPosition.x;
+            int y = (int)t.localPosition.y + 1;
 
             switch (t.tag)
             {
@@ -51,7 +60,7 @@ public class LevelController : MonoBehaviour
                     ghosties.Add(t.GetComponent<Character>());
                     break;
                 case "Stair":
-                    stairPosition = t.localPosition - new Vector3(0,0.5f,0);
+                    stairPosition = t.localPosition - new Vector3(0, 0.5f, 0);
                     if (x == 0) stairDirection = Vector3.left;
                     if (y == 0) stairDirection = Vector3.down;
                     if (x == n)
@@ -123,6 +132,7 @@ public class LevelController : MonoBehaviour
 
         idle = true;
     }
+    List<TriggerListener> m_eventTriggerListeners;
 
     //Win and lose
     IEnumerator Victory()
@@ -134,9 +144,41 @@ public class LevelController : MonoBehaviour
             Destroy(ghost.gameObject);
 
         yield return new WaitForSeconds(0.5f);
-        Instantiate(winOverlay, transform, true);
+        winOverlay.gameObject.SetActive(true);
+        SetButton(winOverlay.GetOrAddComponent<TriggerListener>(), EventTriggerType.PointerClick, (_event, _gameObject) => GameGlobal.Play(++GameGlobal.level));
+    }
+    public void SetButton(TriggerListener trigger, EventTriggerType triggerType, UnityAction<EventTriggerType, GameObject> triggerAction, object triggerArg = null)
+    {
+        TriggerListener.Entry entry = trigger.triggers.Find(p => p.eventID == triggerType);
+        if (entry == null)
+        {
+            entry = new TriggerListener.Entry();
+            entry.eventID = triggerType;
+            trigger.triggers.Add(entry);
+        }
+        trigger.triggerArg.Add(triggerArg);
+        entry.AddEventListener(triggerType, triggerAction);
+        if (!m_eventTriggerListeners.Contains(trigger))
+        {
+            m_eventTriggerListeners.Add(trigger);
+        }
     }
 
+    public void SetButton(Component item, EventTriggerType triggerType, UnityAction<EventTriggerType, GameObject> triggerEvent, object triggerArg = null)
+    {
+        if (item == null)
+            return;
+        TriggerListener trigger = item.GetComponent<TriggerListener>();
+        if (trigger != null)
+            SetButton(trigger, triggerType, triggerEvent, triggerArg);
+    }
+
+    public void SetButton(Transform parent, string targetPath, EventTriggerType triggerType, UnityAction<EventTriggerType, GameObject> triggerEvent, object triggerArg = null)
+    {
+        Transform trans = parent.Find(targetPath);
+        if (trans != null)
+            SetButton(trans, triggerType, triggerEvent, triggerArg);
+    }
     IEnumerator Lost()
     {
         Vector3 position = player.transform.localPosition;
@@ -146,7 +188,7 @@ public class LevelController : MonoBehaviour
             Destroy(ghost.gameObject);
 
         yield return new WaitForSeconds(0.5f);
-        Instantiate(loseOverplay, transform, true);
+        GameGlobal.Restart();
     }
 
     //Ghost
@@ -269,13 +311,13 @@ public class LevelController : MonoBehaviour
         int n = 20 - 1;
 
         if (direction == Vector3.up)
-            return y == n || horizontalWall[x, y + 1] == 1 || verticalWall[x, y +1 ] == 1;
+            return y == n || horizontalWall[x, y + 1] == 1 || verticalWall[x, y + 1] == 1;
 
         if (direction == Vector3.down)
-            return y == 0 || horizontalWall[x, y-1] == 1 || verticalWall[x, y -1] == 1;
+            return y == 0 || horizontalWall[x, y - 1] == 1 || verticalWall[x, y - 1] == 1;
 
         if (direction == Vector3.left)
-            return x == 0 || verticalWall[x -1, y] == 1 || horizontalWall[x - 1, y] == 1;
+            return x == 0 || verticalWall[x - 1, y] == 1 || horizontalWall[x - 1, y] == 1;
 
         if (direction == Vector3.right)
             return x == n || verticalWall[x + 1, y] == 1 || horizontalWall[x + 1, y] == 1;

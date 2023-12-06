@@ -34,7 +34,7 @@ public class AssetLoadManager : MonoBehaviour
 {
     static AssetBundleManifest m_AssetBundleManifest = null;
 #if Main
-    static bool m_SimulateAssetBundleInEditor = true;
+    static bool m_SimulateAssetBundleInEditor = false;
 #else
     static bool m_SimulateAssetBundleInEditor = false;
 #endif
@@ -313,6 +313,7 @@ public class AssetLoadManager : MonoBehaviour
     /// <param name="isAdditive">If set to <c>true</c> is additive.</param>
     public static AssetLoadOperation LoadLevelAsync(string assetBundleName, string levelName, bool isAdditive)
     {
+        Debug.Log("LoadLevelAsync " + assetBundleName);
         AssetLoadOperation operation = null;
 #if UNITY_EDITOR
         CollectionAssets(assetBundleName);
@@ -381,7 +382,7 @@ public class AssetLoadManager : MonoBehaviour
     /// <param name="type">Type.</param>
     public static Object LoadAsset(string assetBundleName, string assetName, System.Type type)
     {
-        //Debuger.Log("kwang...LoadAsset " + assetBundleName);
+        Debuger.Log("LoadAsset " + assetBundleName);
 
 #if UNITY_EDITOR
         CollectionAssets(assetBundleName);
@@ -452,7 +453,7 @@ public class AssetLoadManager : MonoBehaviour
             return;
 
         string[] dependencies = null;
-
+        Debug.Log("UnLoadAssetBundle " + assetBundleName);
         m_Dependencies.TryGetValue(assetBundleName, out dependencies);
 
         if (dependencies != null)
@@ -523,7 +524,10 @@ public class AssetLoadManager : MonoBehaviour
             return null;
 
         LoadedAssetBundle bundle = null;
-
+        foreach(var assetBundle in m_LoadedAssetBundles)
+        {
+            Debug.Log("GetLoadedAssetBundle " + assetBundle);
+        }
         if (m_LoadedAssetBundles.TryGetValue(assetBundleName, out bundle))
             return bundle;
 
@@ -570,7 +574,7 @@ public class AssetLoadManager : MonoBehaviour
         }
 
         string url = Utility.GetAssetBundleDiskPath(assetBundleName);
-        //Debuger.Log("url assetBundleName: " + url);
+        Debuger.Log("url assetBundleName: " + url);
         AssetBundle bundle = AssetBundle.LoadFromFile(url);
         if (bundle == null)
         {

@@ -15,6 +15,6 @@ public static class GameGlobal
 
     public static void Restart()
     {
-        //SceneManager.LoadScene("Gameplay(Maze)");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay(Maze)");
     }
 }
