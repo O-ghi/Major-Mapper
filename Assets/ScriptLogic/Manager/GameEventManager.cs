@@ -30,6 +30,15 @@ public class GameEventManager: SingletonTemplate<GameEventManager>
         }
     }
 
+    public Action<int> onUpdateItem;
+    public void UpdateItem(int id)
+    {
+        if (onUpdateItem != null)
+        {
+            onUpdateItem(id);
+        }
+    }
+
     #endregion
 
     #region InputEvent

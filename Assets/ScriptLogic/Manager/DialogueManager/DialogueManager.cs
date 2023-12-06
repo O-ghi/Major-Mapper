@@ -32,6 +32,8 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
         dialogueFunctionBinding = new DialogueFunctionBinding();
         m_eventTriggerListeners = new List<TriggerListener>();
         textAssets = new List<TextAsset>();
+        GameEventManager.Singleton.onInteract += InteractPressed;
+
     }
 
     public static DialogueManager GetInstance()
@@ -45,23 +47,26 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
 
 
     }
-
-    protected override void Update()
+    public void InteractPressed()
     {
-        // return right away if dialogue isn't playing
         if (!dialogueIsPlaying)
         {
             return;
         }
-
-        // handle continuing to the next line in the dialogue when submit is pressed
-        // NOTE: The 'currentStory.currentChoiecs.Count == 0' part was to fix a bug after the Youtube video was made
         if (canContinueToNextLine
-            && currentStory.currentChoices.Count == 0
-            && InputManager.GetInstance().GetInteractPressed())
+            && currentStory.currentChoices.Count == 0)
         {
             ContinueStory();
         }
+    }
+    protected override void Update()
+    {
+        // return right away if dialogue isn't playing
+        
+
+        // handle continuing to the next line in the dialogue when submit is pressed
+        // NOTE: The 'currentStory.currentChoiecs.Count == 0' part was to fix a bug after the Youtube video was made
+        
     }
 
     public void EnterDialogueMode(TextAsset inkJSON, TaskData taskData = null)
@@ -83,7 +88,15 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
 
         if (textAssets.Contains(inkJSON))
         {
-            currentStory.ChoosePathString("openagain");
+            if (taskData.statusTask == StatusTask.CanSubmit)
+            {
+                currentStory.ChoosePathString("reward");
+
+            } else
+            {
+                currentStory.ChoosePathString("openagain");
+
+            }
         } else
         {
             textAssets.Add(inkJSON);
@@ -101,14 +114,16 @@ public class DialogueManager : ManagerTemplate<DialogueManager>
             index++;
         }
         dialogueFunctionBinding.AcceptTaskBind(currentStory, taskData);
+        dialogueFunctionBinding.SubmitTaskBind(currentStory, taskData);
 
         ContinueStory();
     }
 
     public IEnumerator ExitDialogueMode()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         dialogueFunctionBinding.AcceptTaskUnBind(currentStory);
+        dialogueFunctionBinding.SubmitTaskUnBind(currentStory);
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";

@@ -27,7 +27,7 @@ public class Utility
 
         if (!File.Exists(url))
         {
-            url = string.Format("{0}/{1}/{2}", Application.streamingAssetsPath, PlatformName, assetBundleName);
+            url = string.Format("{0}/{1}", Application.streamingAssetsPath, assetBundleName);
         }
 #if UNITY_ANDROID
         else
@@ -62,9 +62,9 @@ public class Utility
         if (!File.Exists(path))
         {
             path = string.Format("{0}/{1}", Application.streamingAssetsPath, assetBundleName);
-		}
+        }
 
-		return path;
+        return path;
     }
 
 
@@ -87,7 +87,7 @@ public class Utility
 		switch (target)
 		{
 			case BuildTarget.Android:
-				return "android";
+				return "Android";
 			case BuildTarget.iOS:
 				return "ios";
 			case BuildTarget.WebGL:
@@ -108,13 +108,13 @@ public class Utility
 	private static string GetPlatformForAssetBundles(RuntimePlatform platform)
 	{
 #if UNITY_ANDROID && !Main
-        return "android";
+        return "Android";
 #endif
 
         switch (platform)
 		{
 			case RuntimePlatform.Android:
-				return "android";
+				return "Android";
 			case RuntimePlatform.IPhonePlayer:
 				return "ios";
 			case RuntimePlatform.WebGLPlayer:

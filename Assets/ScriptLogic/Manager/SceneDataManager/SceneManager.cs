@@ -47,7 +47,7 @@ public class SceneManager : ManagerTemplate<SceneManager>
         //GameEventManager.RaiseEvent(GameEventTypes.ExitScene);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("empty");
-
+        if (!string.IsNullOrEmpty(lastSceneBundleName))
         AssetLoadManager.UnLoadAssetBundle(lastSceneBundleName);
 
         yield return ChangeSceneInternal(taskId);

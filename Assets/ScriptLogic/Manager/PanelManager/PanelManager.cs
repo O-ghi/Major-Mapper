@@ -24,6 +24,8 @@ public class PanelManager : ManagerTemplate<PanelManager>
     protected override void InitManager()
     {
         base.InitManager();
+        ManagerLogic.Singleton.AddManagerUpdate(this.GetType(), Update);
+
         GameObject uiCanvas = GameObject.Find("_UICanvas");
         if (uiCanvas == null)
         {
@@ -36,6 +38,14 @@ public class PanelManager : ManagerTemplate<PanelManager>
         m_panels = new List<UIBase>();
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        for(int i = 0; i < m_panels.Count; i++)
+        {
+            m_panels[i].GameUpdate();
+        }
+    }
     public static UIBase SetPanel(string uiName)
     {
         if (PanelExits(uiName))
@@ -147,27 +157,11 @@ public class PanelManager : ManagerTemplate<PanelManager>
     public static void Clear()
     {
 
-        //for (int i = 0; i < m_panels.Count; i++)
-        //{
-        //    DestroyUI(m_panels[i]);
-        //}
+        for (int i = 0; i < m_panels.Count; i++)
+        {
+            m_panels[i].gameObject.SetActive(false);
+        }
 
-        //m_panels.Clear();
-        //m_forceOrderPanel.Clear();
-
-        //foreach (var ui in m_residentPanels)
-        //{
-        //    DestroyUI(ui);
-        //}
-
-        //m_residentPanels.Clear();
-
-        ////foreach (var item in m_assetOps)
-        ////{
-        ////    item.Value.UnloadAssetBundle();
-        ////}
-        //m_componentInfos.Clear();
-        ////m_assetOps.Clear();
-        //ResetOrder();
+  
     }
 }

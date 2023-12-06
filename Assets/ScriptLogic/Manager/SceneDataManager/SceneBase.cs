@@ -9,6 +9,7 @@ public abstract class SceneBase
     public SceneData _sceneData;
     public TaskCoreCfg _taskCoreCfg;
     public string _sceneName;
+    public bool isComplete;
     //Transform - Instance
 
     public Transform transform()

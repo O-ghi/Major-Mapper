@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
         SceneDataManager.CreateInstance();
         EntityManager.CreateInstance();
         TaskManager.CreateInstance();
+
+        var mainmenu = PanelManager.SetPanel("MainMenuPanel");
+
     }
     private void InitManager()
     {
@@ -32,13 +35,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            //var obj = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "scenes/campingscene"));
-            //var scenes = obj.GetAllScenePaths();
-            //obj.LoadAsset("campingscene", typeof(Scene));
-            SceneManager.ChangeScene(1);
+        //if(Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    //var obj = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "scenes/campingscene"));
+        //    //var scenes = obj.GetAllScenePaths();
+        //    //obj.LoadAsset("campingscene", typeof(Scene));
+        //    SceneManager.ChangeScene(1);
             
-        }
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    //var obj = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "scenes/campingscene"));
+        //    //var scenes = obj.GetAllScenePaths();
+        //    //obj.LoadAsset("campingscene", typeof(Scene));
+        //}
     }
 }

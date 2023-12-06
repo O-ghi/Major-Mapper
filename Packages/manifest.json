@@ -23,7 +23,7 @@
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.inputsystem": "1.5.1",
     "com.unity.shadergraph": "12.1.11",
-    "com.unity.sharp-zip-lib": "https://github.com/needle-mirror/com.unity.sharp-zip-lib.git",
+    "com.unity.sharp-zip-lib": "1.3.4-preview",
     "com.unity.test-framework": "1.1.31",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.timeline": "1.6.4",

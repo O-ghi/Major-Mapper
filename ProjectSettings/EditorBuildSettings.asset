@@ -15,8 +15,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 1 (MM).unity
     guid: 38e80a177ff93d243a21aefc8e9c117a
   - enabled: 1
+    path: Assets/Scenes/UI Login.unity
+    guid: 2f6c4390b9aee8a428e2f30310ba13a9
+  - enabled: 1
     path: Assets/Scenes/GameMain.unity
     guid: 81cd24aa7fbba01468535a5675041030
+  - enabled: 1
+    path: Assets/Scenes/CampingScene.unity
+    guid: 3a90d4662454bcf4ea0ea86c35f4390b
+  - enabled: 1
+    path: Assets/Scenes/Gameplay(Maze).unity
+    guid: bc8b01de2b20df54ba17c54fbaed4c56
   - enabled: 1
     path: Assets/Scenes/empty.unity
     guid: d3f35064bf887794bb4ebb284eeefb5b

@@ -60,5 +60,10 @@ public class EntityBaseLogic : SingletonTemplate<EntityBaseLogic>
         }
     }
 
+    public void Clear()
+    {
+        entityList.Clear();
+    }
+
     #endregion
 }

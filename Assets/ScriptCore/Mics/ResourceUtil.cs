@@ -23,7 +23,7 @@ public static class ResourceUtil
         switch (target)
         {
             case BuildTarget.Android:
-                return "android";
+                return "Android";
             case BuildTarget.iOS:
                 return "ios";
             case BuildTarget.WebGL:
@@ -48,7 +48,7 @@ public static class ResourceUtil
         switch (platform)
         {
             case RuntimePlatform.Android:
-                return "android";
+                return "Android";
             case RuntimePlatform.IPhonePlayer:
                 return "ios";
             case RuntimePlatform.WebGLPlayer:

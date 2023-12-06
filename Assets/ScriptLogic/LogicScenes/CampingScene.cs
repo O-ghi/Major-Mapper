@@ -4,6 +4,7 @@ public class CampingScene : SceneBase
 {
     NpcEntity _CampingNPC_1;
     NpcEntity _CampingTable_1;
+    
     PlayerEntity player;
 
     public CampingScene(string sceneName, TaskCoreCfg taskCoreCfg) : base(sceneName, taskCoreCfg)
@@ -15,6 +16,7 @@ public class CampingScene : SceneBase
         base.Init(sceneName);
         //_bornPos = GameObject.Find("BornPos").gameObject;
         TouchPanel touchPanel = PanelManager.SetPanel("TouchPanel") as TouchPanel;
+
         touchPanel.ChangeMode(0);
         InitEntity();
         InitTask();

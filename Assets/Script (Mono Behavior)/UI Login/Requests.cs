@@ -23,15 +23,19 @@ public class Register
 }
 
 [Serializable]
-public class LogIn
+public class Account
 {
-    public int role;
-    public string access_token;
-    public string token_type;
-    public string expires_in;
-    public string username;
-
-    public string Issued;
-
-    public string Expires;
+    public int id;
+    public string name;
+    public string email;
+    public string password;
+    public string gender;
+    public DateTime doB;
+    public string roleName;
+    public string address;
+    public string phone;
+    public string status;
+    public DateTime createDateTime;
+    public string accessToken;
 }
+

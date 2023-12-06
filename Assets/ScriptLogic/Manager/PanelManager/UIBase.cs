@@ -106,7 +106,7 @@ public class UIBase
         //#endif
         if (m_luacode != null)
             m_luacode.cacheTransform = cacheTransform;
-
+        m_eventTriggerListeners = new List<TriggerListener>();
         //
         sortingOrder = 0;
     }

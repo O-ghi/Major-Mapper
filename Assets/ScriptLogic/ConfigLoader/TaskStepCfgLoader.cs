@@ -41,10 +41,10 @@ public class TaskStepCfgLoader : ConfigLoaderBase
     public TaskStepCfg GetCfg(int taskCoreId, int id)
     {
         Dictionary<int, TaskStepCfg> _value;
-        if (m_data.TryGetValue(id, out _value))
+        if (m_data.TryGetValue(taskCoreId, out _value))
         {
             TaskStepCfg cfg;
-            if (_value.TryGetValue(taskCoreId, out cfg))
+            if (_value.TryGetValue(id, out cfg))
             {
                 return cfg;
             }

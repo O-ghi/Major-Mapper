@@ -52,13 +52,12 @@ public class NpcEntity : EntityBase
         {
             if (taskData.statusTask == StatusTask.CanAccept)
             {
-                if (string.IsNullOrEmpty(taskData.task.ItemNeeds))
-                {
+                
                     Debug.Log("Mở Dialouge " + taskData.task.Dialogue);
                     var inkJson = AssetLoadManager.LoadAsset<TextAsset>("dialoguetext", taskData.task.Dialogue);
                     DialogueManager.GetInstance().EnterDialogueMode(inkJson, taskData);
                     //DialogueManager.Instance.EnterDialogueMode();
-                }
+                
 
             }
             else if (taskData.statusTask == StatusTask.CanSubmit)
