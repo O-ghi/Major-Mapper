@@ -1,0 +1,2 @@
+EXTERNAL acceptTask()
+EXTERNAL submitTask()
