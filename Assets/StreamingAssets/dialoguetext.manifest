@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 803682621
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 13d2fc7a48362d0f2971fea01de0246f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Dialogue/DialogueText/camping_dialogue_0.json
+- Assets/Dialogue/DialogueText/camping_dialogue_2_reward.json
+- Assets/Dialogue/DialogueText/camping_dialogue_2.json
+- Assets/Dialogue/DialogueText/camping_dialogue_3.json
+- Assets/Dialogue/DialogueText/camping_dialogue_1_reward.json
+- Assets/Dialogue/DialogueText/camping_dialogue_1.json
+Dependencies: []
