@@ -554,12 +554,12 @@ public class PathUtil
         }
     }
 #if UNITY_ANDROID
-    public static string EditorDllPgamemain = Application.dataPath + "/../hotupdate/PGameMain/GameDll/PGameLogic.dll";
+    public static string EditorDllPgamemain = Application.dataPath + "/../hotupdate/PGameMain/GameDll/GameLogic.dll";
     //
-    public static string EditorFixDllPath = Application.dataPath + "/../GameDll/PGameFix.dll";
-    public static string EditorFixPdbPath = Application.dataPath + "/../GameDll/PGameFix.pdb";
-    public static string EditorDllPath = Application.dataPath + "/../GameDll/PGameLogic.dll";
-    public static string EditorPdbPath = Application.dataPath + "/../GameDll/PGameLogic.pdb";
+    public static string EditorFixDllPath = Application.dataPath + "/../GameDll/GameFix.dll";
+    public static string EditorFixPdbPath = Application.dataPath + "/../GameDll/GameFix.pdb";
+    public static string EditorDllPath = Application.dataPath + "/../GameDll/GameLogic.dll";
+    public static string EditorPdbPath = Application.dataPath + "/../GameDll/GameLogic.pdb";
     public static string EditorUIABPath
     {
         get
@@ -570,7 +570,7 @@ public class PathUtil
         }
     }
 #elif UNITY_IOS
-    public static string EditorDllPgamemain = Application.dataPath + "/../../PGameMain/GameDll_IOS/PGameLogic.dll";
+    public static string EditorDllPgamemain = Application.dataPath + "/../../PGameMain/GameDll_IOS/GameLogic.dll";
 
     public static string EditorFixDllPath = Application.dataPath + "/../GameDll_IOS/PGameFix.dll";
     public static string EditorFixPdbPath = Application.dataPath + "/../GameDll_IOS/PGameFix.pdb";

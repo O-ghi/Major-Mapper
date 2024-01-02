@@ -9,7 +9,6 @@
       "GameLogic/1.0.0": {
         "dependencies": {
           "Assembly-CSharp": "0.0.0.0",
-          "ILRuntime": "0.0.0.0",
           "Ink-Libraries": "0.0.0.0",
           "InkEditor": "0.0.0.0",
           "Unity.Cecil": "0.10.0.0",
@@ -114,14 +113,6 @@
       "Assembly-CSharp/0.0.0.0": {
         "runtime": {
           "Assembly-CSharp.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "ILRuntime/0.0.0.0": {
-        "runtime": {
-          "ILRuntime.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -895,6 +886,14 @@
           }
         }
       },
+      "Unity.Timeline/1.0.0.0": {
+        "runtime": {
+          "Unity.Timeline.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "UnityEngine.TestRunner/1.0.0.0": {
         "runtime": {
           "UnityEngine.TestRunner.dll": {
@@ -942,14 +941,6 @@
             "fileVersion": "1.0.0.0"
           }
         }
-      },
-      "Unity.Timeline/1.0.0.0": {
-        "runtime": {
-          "Unity.Timeline.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
       }
     }
   },
@@ -960,11 +951,6 @@
       "sha512": ""
     },
     "Assembly-CSharp/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "ILRuntime/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1449,6 +1435,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Unity.Timeline/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.TestRunner/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1475,11 +1466,6 @@
       "sha512": ""
     },
     "UnityEditor.UI/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Unity.Timeline/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

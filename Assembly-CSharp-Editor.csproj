@@ -63,6 +63,7 @@
     <Compile Include="Assets\PluginAssets\Resource\Editor\UIABToggle.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\ExportProject\ExportAndroidProject.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\AssetListTree.cs" />
+    <Compile Include="Assets\PluginAssets\ILRuntime\Adapters\Editor\DelegateGen.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\AssetBundleModel\ABModel.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\AssetBundleDataSource\ABDataSourceProvider.cs" />
     <Compile Include="Assets\PluginAssets\Resource\Editor\PrefabSceneBuilder.cs" />
@@ -73,11 +74,12 @@
     <Compile Include="Assets\Editor\PlayerBuilder.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\InspectTab\InspectSingleBundle.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\BundleDetailList.cs" />
+    <Compile Include="Assets\PluginAssets\ILRuntime\Adapters\Editor\MonoBehaviourAdapterEditor.cs" />
     <Compile Include="Assets\PluginAssets\Resource\Editor\ResFormatMaker.cs" />
     <Compile Include="Assets\PluginAssets\Resource\Editor\PlayerBuilder.cs" />
     <Compile Include="Assets\PluginAssets\Resource\Editor\ClearPrefs.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\AssetBundleModel\ABModelBundleInfo.cs" />
-    <Compile Include="Assets\ILRuntime\2.1.0\Demo\Scripts\Examples\08_MonoBehaviour\Editor\MonoBehaviourAdapterEditor.cs" />
+    <Compile Include="Assets\PluginAssets\ILRuntime\Adapters\Editor\AdapterGen.cs" />
     <Compile Include="Assets\Editor\GHBuidlAssetBundle\B_TreeFolderInfo.cs" />
     <Compile Include="Assets\PluginAssets\Resource\Editor\PlayerBuilderWindow.cs" />
     <Compile Include="Assets\Editor\GHBuidlAssetBundle\AssetBundleNameRemover.cs" />
@@ -87,7 +89,6 @@
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\AssetBundleDataSource\AssetDatabaseABDataSource.cs" />
     <Compile Include="Assets\Ink\Demos\Basic Demo\Scripts\Editor\BasicInkExampleEditor.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\InspectTab\InspectTreeView.cs" />
-    <Compile Include="Assets\ILRuntime\Editor\ILRuntimeCrossBinding.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\InspectTab\AssetBundleInspectTab.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\AssetBundleTree.cs" />
     <Compile Include="Assets\Editor\GHBuidlAssetBundle\EditorBundleWindow.cs" />
@@ -97,8 +98,7 @@
     <Compile Include="Assets\Editor\GHBuidlAssetBundle\BuildUtil.cs" />
     <Compile Include="Assets\Editor\Tools\AssetBundleBrowser\AssetBundleBuildTab.cs" />
     <Compile Include="Assets\Editor\GHBuidlAssetBundle\LoadABMgrEditor\LoadABTreeUI.cs" />
-    <Compile Include="Assets\ILRuntime\Editor\ILRuntimeCLRBinding.cs" />
-    <Compile Include="Assets\ILRuntime\Editor\ILRuntimeMenu.cs" />
+    <Compile Include="Assets\PluginAssets\ILRuntime\Adapters\Editor\ILRuntimeCLRBinding.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -396,10 +396,10 @@
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.0.3\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
     <Reference Include="ILRuntime.Mono.Cecil.Mdb">
-      <HintPath>Library\PackageCache\com.ourpalm.ilruntime@2.1.0\Plugins\ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
+      <HintPath>Assets\PluginAssets\ILRuntime\Plugins\ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
     <Reference Include="ILRuntime.Mono.Cecil">
-      <HintPath>Library\PackageCache\com.ourpalm.ilruntime@2.1.0\Plugins\ILRuntime.Mono.Cecil.dll</HintPath>
+      <HintPath>Assets\PluginAssets\ILRuntime\Plugins\ILRuntime.Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Cecil">
       <HintPath>Library\PackageCache\com.unity.burst@1.6.6\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll</HintPath>
@@ -408,7 +408,7 @@
       <HintPath>Library\PackageCache\com.unity.burst@1.6.6\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="ILRuntime.Mono.Cecil.Pdb">
-      <HintPath>Library\PackageCache\com.ourpalm.ilruntime@2.1.0\Plugins\ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
+      <HintPath>Assets\PluginAssets\ILRuntime\Plugins\ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.8.0\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
@@ -934,9 +934,6 @@
     </Reference>
     <Reference Include="Unity.SharpZipLib.Utils">
       <HintPath>Library\ScriptAssemblies\Unity.SharpZipLib.Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime">
-      <HintPath>Library\ScriptAssemblies\ILRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>

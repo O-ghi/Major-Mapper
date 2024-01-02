@@ -9,7 +9,6 @@
     }
   ],
   "dependencies": {
-    "com.ourpalm.ilruntime": "2.1.0",
     "com.unity.2d.tilemap.extras": "https://github.com/Unity-Technologies/2d-extras.git#master",
     "com.unity.adaptiveperformance.google.android": "1.2.1",
     "com.unity.adaptiveperformance.samsung.android": "5.0.0",
