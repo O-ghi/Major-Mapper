@@ -37,7 +37,8 @@ public class CoroutineManager : MonoBehaviour
                             bool ret = coroutine.MoveNext();
                             if (ret == false)
                                 Running = false;
-                        }catch(Exception e)
+                        }
+                        catch (Exception e)
                         {
                             Debug.LogError(e.Message + "\n" + e.StackTrace);
                         }
@@ -87,7 +88,7 @@ public class CoroutineManager : MonoBehaviour
     {
         if (this.gameObject.activeSelf)
         {
-            if(co != null)
+            if (co != null)
             {
                 StopCoroutine(co);
             }
@@ -117,7 +118,7 @@ public class CoroutineManager : MonoBehaviour
     /// <param name="id"></param>
     public void stopCoroutine(long id)
     {
-        if(mCoroutines.ContainsKey(id.ToString()))
+        if (mCoroutines.ContainsKey(id.ToString()))
         {
             CoroutineTask task = mCoroutines[id.ToString()];
             task.Running = false;
@@ -135,7 +136,8 @@ public class CoroutineManager : MonoBehaviour
         {
             CoroutineTask task = mCoroutines[id.ToString()];
             task.Paused = true;
-        }else
+        }
+        else
         {
             Debug.LogError("coroutine: " + id.ToString() + " is not exist!");
         }

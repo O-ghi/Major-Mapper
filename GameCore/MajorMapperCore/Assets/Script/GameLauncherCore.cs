@@ -153,7 +153,7 @@ public class GameLauncherCore : MonoBehaviour
             var ps = new System.IO.MemoryStream(pdb);
             appdomain.LoadAssembly(fs, ps, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
             //appdomain.LoadAssembly(fs, ps, new PdbReaderProvider());
-            //ILRuntime.ILScriptBinder.Bind(appdomain);
+            ILRuntime.ILScriptBinder.Bind(appdomain);
             appdomain.DebugService.StartDebugService(56000);
             Debug.Log("init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
             //Debuger.Log("GameManagerHotupdate is " + (appdomain.GetType("GameManagerHotupdate")!=null) );
@@ -162,7 +162,7 @@ public class GameLauncherCore : MonoBehaviour
             {
                 UnityEditor.EditorApplication.isPaused = true;
             }
-            appdomain.Invoke("GameUpdater", "Initialize", null, gameUpdate, debugMode);
+            appdomain.Invoke("GameManager", "Initialize", null, gameUpdate, debugMode);
             Debug.Log("editor init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
         }
         else
@@ -173,7 +173,7 @@ public class GameLauncherCore : MonoBehaviour
             var assembly = System.Reflection.Assembly.Load(dll);
             Debug.Log("editor init dll time > " + (Time.realtimeSinceStartup - time) + "s");
 
-            var type = assembly.GetType("GameUpdater");
+            var type = assembly.GetType("GameManager");
             var met = type.GetMethod("Initialize", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
             met.Invoke(null, new object[] { gameUpdate, debugMode });
             dllAssembly = assembly;
@@ -202,7 +202,7 @@ public class GameLauncherCore : MonoBehaviour
             ILRuntime.ILScriptBinder.Bind(appdomain);
             ilrtApp = appdomain;
             Debug.Log("init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
-            appdomain.Invoke("GameUpdater", "Initialize", null, gameUpdate, debugMode);
+            appdomain.Invoke("GameManager", "Initialize", null, gameUpdate, debugMode);
 #endif
         yield return null;
         }
@@ -235,7 +235,7 @@ public class GameLauncherCore : MonoBehaviour
                 ILRuntime.ILScriptBinder.Bind(appdomain);
                 ilrtApp = appdomain;
                 Debug.Log("init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
-                appdomain.Invoke("GameUpdater", "Initialize", null, gameUpdate, debugMode);
+                appdomain.Invoke("GameManager", "Initialize", null, gameUpdate, debugMode);
                 ab.Unload(true);
             });
 #endif
@@ -259,7 +259,7 @@ public class GameLauncherCore : MonoBehaviour
             var assembly = System.Reflection.Assembly.Load(bytes);
             Debug.Log("init dll time > " + (Time.realtimeSinceStartup - time) + "s");
 
-            var type = assembly.GetType("GameUpdater");
+            var type = assembly.GetType("GameManager");
             var met = type.GetMethod("Initialize", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
             met.Invoke(null, new object[] { gameUpdate, debugMode });
 #endif
@@ -290,7 +290,7 @@ public class GameLauncherCore : MonoBehaviour
                 var assembly = System.Reflection.Assembly.Load(bytes);
                 Debug.Log("init dll time > " + (Time.realtimeSinceStartup - time) + "s");
 
-                var type = assembly.GetType("GameUpdater");
+                var type = assembly.GetType("GameManager");
                 var met = type.GetMethod("Initialize", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
                 met.Invoke(null, new object[] { gameUpdate, debugMode });
                 ab.Unload(true);

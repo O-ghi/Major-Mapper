@@ -62,6 +62,6 @@ public class DelegateGen
             //Debuger.Log(type.DeclaringType, type.DeclaringType.);
             ret += string.Format("app.DelegateManager.RegisterMethodDelegate<{0}>();\r\n", args);
         }
-        Debuger.Log("end");
+        Debuger.Log("end " + ret);
     }
 }

@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739a86d96ad373b459777fc35f2aade0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameUpdate: {fileID: 0}
+  gameUpdate: {fileID: 75295005}
   isNoUpdate: 0
   debugMode: 0
   debugModeILruntime: 0

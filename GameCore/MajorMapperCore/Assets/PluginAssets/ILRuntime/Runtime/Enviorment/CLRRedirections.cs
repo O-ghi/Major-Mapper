@@ -75,6 +75,7 @@ namespace ILRuntime.Runtime.Enviorment
 
         public static StackObject* CreateInstance2(ILIntepreter intp, StackObject* esp, AutoList mStack, CLRMethod method, bool isNewObj)
         {
+            Debuger.Log(method.Name); 
             var p = esp - 1;
             var t = mStack[p->Value] as Type;
             intp.Free(p);

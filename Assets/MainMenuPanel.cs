@@ -10,7 +10,7 @@ public class MainMenuPanel : UIBase
     {
         playgamebutton = transform.Find("PlayGame");
         SetButton(playgamebutton.GetOrAddComponent<TriggerListener>(), EventTriggerType.PointerClick, (_event, _gameobjet) => EnterScene());
-            }
+    }
     public void EnterScene()
     {
         if (Application.isPlaying)

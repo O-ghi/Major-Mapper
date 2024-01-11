@@ -112,21 +112,21 @@ public class ConfigLoaderUtils
             var rows = table.SelectNodes("Row");
 
             //Duong tạo list asset thay vì invoke
-//#if Main
+#if Main
             var type = Type.GetType(typeName);
-//#else
-            //var type = GameLauncherCore.ilrtApp.GetType(typeName).ReflectionType;
-//#endif
+#else
+            var type = GameLauncherCore.ilrtApp.GetType(typeName).ReflectionType;
+#endif
 
             List<object> rowResult = new List<object>();
             for (int i = 0; i < rows.Count; i++)
             {
-//#if Main
+#if Main
                 //Phương án này ko hỗ trợ cho PGame, chỉ dùng cho PGameMain + ILruntime
                 rowResult.Add(Activator.CreateInstance(type));
-//#else
-                //rowResult.Add(GameLauncherCore.ilrtApp.Instantiate(typeName));
-//#endif
+#else
+                rowResult.Add(GameLauncherCore.ilrtApp.Instantiate(typeName));
+#endif
             }
 
             for (int i = 0; i < rows.Count; i++)
@@ -193,6 +193,6 @@ public class ConfigLoaderUtils
 
         return doc;
     }
-    #endregion
+#endregion
 
 }

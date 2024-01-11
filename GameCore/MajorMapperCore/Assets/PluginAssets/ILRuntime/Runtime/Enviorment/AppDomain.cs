@@ -237,9 +237,9 @@ namespace ILRuntime.Runtime.Enviorment
         bool IsThreadBinding = false;
         bool IsBindingDone = false;
         static object bindingLockObject = new object();
-        internal Dictionary<MethodBase, CLRRedirectionDelegate> RedirectMap 
-        { 
-            get 
+        internal Dictionary<MethodBase, CLRRedirectionDelegate> RedirectMap
+        {
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -247,16 +247,16 @@ namespace ILRuntime.Runtime.Enviorment
                 }
                 else
                 {
-                    lock(bindingLockObject)
+                    lock (bindingLockObject)
                     {
                         return redirectMap;
                     }
                 }
-            } 
+            }
         }
         internal Dictionary<FieldInfo, CLRFieldGetterDelegate> FieldGetterMap
         {
-            get 
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -269,11 +269,11 @@ namespace ILRuntime.Runtime.Enviorment
                         return fieldGetterMap;
                     }
                 }
-            } 
+            }
         }
-        internal Dictionary<FieldInfo, CLRFieldSetterDelegate> FieldSetterMap 
-        { 
-            get 
+        internal Dictionary<FieldInfo, CLRFieldSetterDelegate> FieldSetterMap
+        {
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -288,9 +288,9 @@ namespace ILRuntime.Runtime.Enviorment
                 }
             }
         }
-        internal Dictionary<FieldInfo, KeyValuePair<CLRFieldBindingDelegate, CLRFieldBindingDelegate>> FieldBindingMap 
+        internal Dictionary<FieldInfo, KeyValuePair<CLRFieldBindingDelegate, CLRFieldBindingDelegate>> FieldBindingMap
         {
-            get 
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -305,9 +305,9 @@ namespace ILRuntime.Runtime.Enviorment
                 }
             }
         }
-        internal Dictionary<Type, CLRMemberwiseCloneDelegate> MemberwiseCloneMap 
+        internal Dictionary<Type, CLRMemberwiseCloneDelegate> MemberwiseCloneMap
         {
-            get 
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -322,9 +322,9 @@ namespace ILRuntime.Runtime.Enviorment
                 }
             }
         }
-        internal Dictionary<Type, CLRCreateDefaultInstanceDelegate> CreateDefaultInstanceMap 
-        { 
-            get 
+        internal Dictionary<Type, CLRCreateDefaultInstanceDelegate> CreateDefaultInstanceMap
+        {
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -337,12 +337,12 @@ namespace ILRuntime.Runtime.Enviorment
                         return createDefaultInstanceMap;
                     }
                 }
-            } 
+            }
         }
 
-        internal Dictionary<Type, CLRCreateArrayInstanceDelegate> CreateArrayInstanceMap 
-        { 
-            get 
+        internal Dictionary<Type, CLRCreateArrayInstanceDelegate> CreateArrayInstanceMap
+        {
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -359,9 +359,9 @@ namespace ILRuntime.Runtime.Enviorment
         }
         internal Dictionary<Type, CrossBindingAdaptor> CrossBindingAdaptors { get { return crossAdaptors; } }
 
-        internal Dictionary<Type, ValueTypeBinder> ValueTypeBinders 
-        { 
-            get 
+        internal Dictionary<Type, ValueTypeBinder> ValueTypeBinders
+        {
+            get
             {
                 if (!IsThreadBinding && IsBindingDone)
                 {
@@ -652,7 +652,7 @@ namespace ILRuntime.Runtime.Enviorment
                         redirectMap[mi] = func;
                 }
             }
-            
+
         }
 
         public void RegisterCLRFieldGetter(FieldInfo f, CLRFieldGetterDelegate getter)
@@ -784,7 +784,7 @@ namespace ILRuntime.Runtime.Enviorment
                     }
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -793,7 +793,7 @@ namespace ILRuntime.Runtime.Enviorment
         /// <param name="isThread"></param>
         public void InitializeBindings(bool isThread = false)
         {
-            if (IsBindingDone) 
+            if (IsBindingDone)
                 return;
 
             IsThreadBinding = isThread;
@@ -810,7 +810,7 @@ namespace ILRuntime.Runtime.Enviorment
                     UnityEngine.Debug.Log("CLRBindingUtils.Initialize Done in thread..");
 #endif
                 });
-                thread.Name = string.Format("CLRBindings-Thread #{0}",thread.ManagedThreadId);
+                thread.Name = string.Format("CLRBindings-Thread #{0}", thread.ManagedThreadId);
                 thread.Start();
             }
             else
@@ -1350,7 +1350,7 @@ namespace ILRuntime.Runtime.Enviorment
             if (t == null || t is CLRType)
                 return;
             ILType ilType = (ILType)t;
-            foreach(var i in ilType.TypeDefinition.NestedTypes)
+            foreach (var i in ilType.TypeDefinition.NestedTypes)
             {
                 Prewarm(i.FullName, recursive);
             }
@@ -1368,7 +1368,7 @@ namespace ILRuntime.Runtime.Enviorment
         /// <param name="recursive"></param>
         public void Prewarm(PrewarmInfo[] info, bool recursive = true)
         {
-            foreach(var i in info)
+            foreach (var i in info)
             {
                 IType t = GetType(i.TypeName);
                 if (t == null || t is CLRType || i.MethodNames == null)
@@ -1376,10 +1376,10 @@ namespace ILRuntime.Runtime.Enviorment
                 var methods = t.GetMethods();
                 foreach (var mn in i.MethodNames)
                 {
-                    foreach(var j in methods)
+                    foreach (var j in methods)
                     {
                         ILMethod m = (ILMethod)j;
-                        if(m.Name == mn && m.GenericParameterCount == 0)
+                        if (m.Name == mn && m.GenericParameterCount == 0)
                         {
                             m.Prewarm(recursive);
                         }
@@ -1530,7 +1530,7 @@ namespace ILRuntime.Runtime.Enviorment
             else
                 throw new NotSupportedException("Cannot invoke CLRMethod");
         }
-        
+
 
         bool IsInvalidMethodReference(MethodReference _ref)
         {
@@ -1544,8 +1544,8 @@ namespace ILRuntime.Runtime.Enviorment
             }
             return false;
         }
-        
-        
+
+
         internal IMethod GetMethod(object token, ILType contextType, ILMethod contextMethod, out bool invalidToken)
         {
             string methodname = null;
@@ -1564,12 +1564,12 @@ namespace ILRuntime.Runtime.Enviorment
             {
                 Mono.Cecil.MethodReference _ref = (token as Mono.Cecil.MethodReference);
 
-                if(IsInvalidMethodReference(_ref))
+                if (IsInvalidMethodReference(_ref))
                 {
                     mapMethod[hashCode] = null;
                     return null;
                 }
-                
+
                 methodname = _ref.Name;
                 var typeDef = _ref.DeclaringType;
                 type = GetType(typeDef, contextType, contextMethod);
@@ -1785,10 +1785,10 @@ namespace ILRuntime.Runtime.Enviorment
             int size = RuntimeStack.MAXIMAL_STACK_OBJECTS * sizeof(StackObject) * (intepreters.Count);
             detail = new List<TypeSizeInfo>();
             HashSet<object> traversed = new HashSet<object>();
-            foreach(var i in LoadedTypes)
+            foreach (var i in LoadedTypes)
             {
                 ILType type = i.Value as ILType;
-                if(type != null)
+                if (type != null)
                 {
                     TypeSizeInfo info = new TypeSizeInfo();
                     info.Type = type;

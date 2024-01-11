@@ -27,33 +27,17 @@ namespace ILRuntime.Runtime.Generated
             Type[] args;
             Type type = typeof(global::Debuger);
             args = new Type[]{typeof(System.Object[])};
-            method = type.GetMethod("Err", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, Err_0);
-            args = new Type[]{typeof(System.Object[])};
             method = type.GetMethod("Log", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, Log_1);
+            app.RegisterCLRMethodRedirection(method, Log_0);
+            args = new Type[]{typeof(System.Object[])};
+            method = type.GetMethod("Err", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, Err_1);
 
 
         }
 
 
-        static StackObject* Err_0(ILIntepreter __intp, StackObject* __esp, AutoList __mStack, CLRMethod __method, bool isNewObj)
-        {
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            StackObject* ptr_of_this_method;
-            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
-
-            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            System.Object[] @msg = (System.Object[])typeof(System.Object[]).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
-            __intp.Free(ptr_of_this_method);
-
-
-            global::Debuger.Err(@msg);
-
-            return __ret;
-        }
-
-        static StackObject* Log_1(ILIntepreter __intp, StackObject* __esp, AutoList __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* Log_0(ILIntepreter __intp, StackObject* __esp, AutoList __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -65,6 +49,22 @@ namespace ILRuntime.Runtime.Generated
 
 
             global::Debuger.Log(@msg);
+
+            return __ret;
+        }
+
+        static StackObject* Err_1(ILIntepreter __intp, StackObject* __esp, AutoList __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.Object[] @msg = (System.Object[])typeof(System.Object[]).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            __intp.Free(ptr_of_this_method);
+
+
+            global::Debuger.Err(@msg);
 
             return __ret;
         }

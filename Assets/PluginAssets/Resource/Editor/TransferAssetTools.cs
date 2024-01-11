@@ -10,7 +10,7 @@ public class TransferAssetTools : ScriptableObject
     [MenuItem("Tools/TransAssetToPGame-PGameLogic")]
     public static void TransferAsset()
     {
-        string ScriptPGameLogicPath = Path.GetFullPath(Application.dataPath + "/../hotupdate/code/trunk/PGameLogic/Scripts/");
+        string ScriptPGameLogicPath = Path.GetFullPath(Application.dataPath + "/../GameCore/code/trunk/GameLogic/Script/");
         string[] lstScript = Directory.GetFiles(ScriptPGameLogicPath, "*.cs", SearchOption.AllDirectories);
         foreach (string file in lstScript) File
                 .Delete(file);
@@ -46,6 +46,7 @@ public class TransferAssetTools : ScriptableObject
         dllBat.StartInfo.Arguments = "close";
         dllBat.Start();
         dllBat.WaitForExit();
+
         //
         Debug.Log("Build DLL Done");
 

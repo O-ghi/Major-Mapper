@@ -81,7 +81,8 @@ public class ILRT[$ClsName]Adaptor : CrossBindingAdaptor
         //list.Add(typeof(AirFishLab.ScrollingList.ListBox));
         //list.Add(typeof(FairyGUI.GObject));
         //list.Add(typeof(FairyGUI.GComponent));
-        list.Add(typeof(PlayerInput.IGameActions));
+        list.Add(typeof(PlayerInput));
+        //list.Add(typeof(PlayerInput));
 
         foreach (var t in list)
         {

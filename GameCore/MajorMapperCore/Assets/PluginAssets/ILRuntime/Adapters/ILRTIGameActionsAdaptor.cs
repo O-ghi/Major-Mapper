@@ -45,36 +45,37 @@ public class ILRTIGameActionsAdaptor : CrossBindingAdaptor
         public ILTypeInstance ILInstance { get { return instance; } }
 
 
-        IMethod mtd_OnMove17;
-        bool called_OnMove17;
+        IMethod mtd_OnMove13;
+        bool called_OnMove13;
         public void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            if (mtd_OnMove17 == null)
-                mtd_OnMove17 = instance.Type.GetMethod("OnMove", 1);
+            if (mtd_OnMove13 == null)
+                mtd_OnMove13 = instance.Type.GetMethod("OnMove", 1);
             
-            if (mtd_OnMove17 != null && !called_OnMove17)
+            if (mtd_OnMove13 != null && !called_OnMove13)
             {
-                called_OnMove17 = true;
-                appdomain.Invoke(mtd_OnMove17, instance, context);
-                called_OnMove17 = false;
+                called_OnMove13 = true;
+                appdomain.Invoke(mtd_OnMove13, instance, context);
+                called_OnMove13 = false;
             }
+           
             
         }
         
-        IMethod mtd_OnInteract11;
-        bool called_OnInteract11;
+        IMethod mtd_OnInteract14;
+        bool called_OnInteract14;
         public void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            if (mtd_OnInteract11 == null)
-                mtd_OnInteract11 = instance.Type.GetMethod("OnInteract", 1);
+            if (mtd_OnInteract14 == null)
+                mtd_OnInteract14 = instance.Type.GetMethod("OnInteract", 1);
             
-            if (mtd_OnInteract11 != null && !called_OnInteract11)
+            if (mtd_OnInteract14 != null && !called_OnInteract14)
             {
-                called_OnInteract11 = true;
-                appdomain.Invoke(mtd_OnInteract11, instance, context);
-                called_OnInteract11 = false;
+                called_OnInteract14 = true;
+                appdomain.Invoke(mtd_OnInteract14, instance, context);
+                called_OnInteract14 = false;
             }
-      
+            
             
         }
         

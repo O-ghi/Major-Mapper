@@ -20,7 +20,7 @@ namespace ILRuntime
             appdomain.RegisterCrossBindingAdaptor(new ILClassCacheAdapter());
             appdomain.RegisterCrossBindingAdaptor(new ILRTIDisposeExtendAdaptor());
             appdomain.RegisterCrossBindingAdaptor(new ILRTIInputActionCollection2ExtendAdaptor());
-            appdomain.RegisterCrossBindingAdaptor(new ILRTPlayerInputAdaptor());
+            //appdomain.RegisterCrossBindingAdaptor(new ILRTPlayerInputAdaptor());
             appdomain.RegisterCrossBindingAdaptor(new ILRTIGameActionsAdaptor());
 
 
@@ -73,11 +73,12 @@ namespace ILRuntime
             appdomain.DelegateManager.RegisterFunctionDelegate<System.Int64, System.Int64, System.Int32>();
             appdomain.DelegateManager.RegisterFunctionDelegate<System.String, System.String, System.Int32>();
             appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Transform, System.Int32, System.String>();
+            appdomain.DelegateManager.RegisterMethodDelegate<System.Collections.Generic.List<System.Object>>();
 
 
 
 
-           
+
 
             appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<ILBaseMessageAdapter.Adaptor>>((act) =>
             {

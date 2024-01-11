@@ -32,9 +32,9 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\GameCore\MajorMapperCore\Library\ScriptAssemblies\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime">
-      <HintPath>..\..\..\..\GameCore\MajorMapperCore\Library\ScriptAssemblies\ILRuntime.dll</HintPath>
+      <Private>True</Private>
+      <Aliases>global</Aliases>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Ink-Libraries">
       <HintPath>..\..\..\..\GameCore\MajorMapperCore\Library\ScriptAssemblies\Ink-Libraries.dll</HintPath>
