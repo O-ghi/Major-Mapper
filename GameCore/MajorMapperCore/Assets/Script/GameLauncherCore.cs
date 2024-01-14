@@ -93,7 +93,7 @@ public class GameLauncherCore : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
 
-        /*StartupManager.Singleton.Start(() => */launchGame();
+        StartupManager.Singleton.Start(() => launchGame());
     }
 
     private void launchGame()
