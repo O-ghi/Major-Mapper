@@ -28,7 +28,7 @@ public class NoneBlockingSequenceQueue<TKey, TVal> where TKey : class, IComparab
         }
         else
         {
-            Debuger.Err("重复添加元素: " + key.ToString());
+            //Debuger.Err("重复添加元素: " + key.ToString());
         }
 
     }

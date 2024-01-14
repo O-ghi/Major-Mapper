@@ -6,12 +6,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static NetworkingManager;
 
 public class NetworkingManager : MonoBehaviour
 {
     public static NetworkingManager instance;
-    public static Account user;
+    public static Account player;
+    public delegate void LoginSuccessEventHandler(string email, string password);
+    public event LoginSuccessEventHandler OnLoginSuccess;
     private string baseURL = @"https://majormapperapi.azurewebsites.net/api/";
+
 
     //Reg
     public InputField UsernameInputField;
@@ -22,10 +26,27 @@ public class NetworkingManager : MonoBehaviour
     public InputField AddressInputField;
     public InputField DateofBirthInputField;
     public InputField PhoneInputField;
+    public InputField inputUsernameField;
+
 
     //Login
     public InputField LoginEmailInputField;
     public InputField LoginPasswordInputField;
+
+    void Awake()
+    {
+        Debug.Log("NetworkingManager Awake");
+        if (instance == null)
+        {
+            instance = this;
+            GameObject.DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,12 +85,12 @@ public class NetworkingManager : MonoBehaviour
     public void OnFakeData()
     {
         StartCoroutine(FakeTest());
-        
+
     }
     public IEnumerator FakeTest()
     {
         var uwr = new UnityWebRequest(baseURL + "Test", "POST");
-        string jsonString = "{\"userId\":" + user.id + ",\"statusGame\":true,\"statusPayment\":true}";
+        string jsonString = "{\"playerId\":" + player.id + ",\"statusGame\":true,\"statusPayment\":true}";
 
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonString);
 
@@ -143,8 +164,8 @@ public class NetworkingManager : MonoBehaviour
     }
     public IEnumerator FakeTestQuestion(string jsonString)
     {
-        
-            var uwr = new UnityWebRequest(baseURL + "TestQuestion", "POST");
+
+        var uwr = new UnityWebRequest(baseURL + "TestQuestion", "POST");
 
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonString);
 
@@ -163,7 +184,7 @@ public class NetworkingManager : MonoBehaviour
         {
             Debug.Log("Success: " + uwr.downloadHandler.text);
         }
-        
+
     }
 
     public IEnumerator Register(Register register)
@@ -195,6 +216,7 @@ public class NetworkingManager : MonoBehaviour
         LoginObject loginObject = new LoginObject();
         loginObject.email = LoginEmailInputField.text;
         loginObject.password = LoginPasswordInputField.text;
+
         string jsonData = JsonUtility.ToJson(loginObject);
 
         string jsonRequestBody = "{\"email\":\"" + LoginEmailInputField.text + "\",\"password\":\"" + LoginPasswordInputField.text + "\"}";
@@ -222,10 +244,29 @@ public class NetworkingManager : MonoBehaviour
             {
                 Debug.Log(response.Key.ToString() + " | " + response.Value.ToString());
             }
-            user = JsonUtility.FromJson<Account>(uwr.downloadHandler.text);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameMain");
+            if (!string.IsNullOrEmpty(uwr.downloadHandler.text))
+            {
+                player = JsonUtility.FromJson<Account>(uwr.downloadHandler.text);
+                if (player != null)
+                {
+                    PlayerPrefs.SetInt("playerId", player.id); // Replace "id" with your actual property name
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("UI Booking");
+
+                    // Call OnLoginSuccess event
+                    OnLoginSuccess?.Invoke(player.email, player.password);
+                }
+                else
+                {
+                    Debug.LogError("Failed to parse user object from server response.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Empty response received from the server.");
+            }
         }
     }
+
 
     [Serializable]
     public class LoginObject

@@ -26,7 +26,7 @@ public class TimeUtils
     public static void setServerTime(long serverTime)
     {
         mDeltaTime = serverTime;
-        Debuger.Log("Show serverTime" + mDeltaTime);
+        //Debuger.Log("Show serverTime" + mDeltaTime);
         mOffsetTime = (Int64)(UnityEngine.Time.realtimeSinceStartup * 1000);
     }
 
