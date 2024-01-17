@@ -1,0 +1,18 @@
+{
+   "formal": {
+      "cmd": "1,2,3,4,1,2",
+      "appVer": "1",
+      "forceResVer": "24",
+      "fullPackage": "true",
+      "configUrl": "/res/gameconfig/{0}/{1}/version_config.json",
+      "buildInfo": {
+         "device": "DESKTOP-19RI6OP",
+         "path": "D:/RADProject/g29_client/G29PGameMain/Assets",
+         "time": "12/9/2023 7:36:06 PM",
+         "branch": "trunk/No",
+         "unity": "2022.3.2f1_False",
+         "buildID": "638377473667133127"
+      },
+      "configTag": "android_dev"
+   }
+}

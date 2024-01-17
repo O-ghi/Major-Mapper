@@ -279,6 +279,7 @@ public class BookingManager : MonoBehaviour
         foreach(var slot in slotData)
         {
             string time = slot.startDateTime.Substring(11, 8);
+            Debug.Log($"Slot startDateTime: {slot.startDateTime}, Extracted time: {time}");
 
             Dropdown.OptionData option = new Dropdown.OptionData($"{time} giờ");
             slotDropdown.options.Add(option);
@@ -432,7 +433,7 @@ public class BookingManager : MonoBehaviour
     }
 
     void SetDetailPanelData()
-    {
+    {   
         // Set input fields in the DetailPanel
         moneyInputField.text = "100,000 VND";
         dateInputField.text = bookedDate;

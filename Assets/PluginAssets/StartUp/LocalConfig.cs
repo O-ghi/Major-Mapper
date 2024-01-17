@@ -155,9 +155,9 @@ public class LocalConfig
 #else
                //Channel cnd address list
         var channelUrl = json[FORMAL_KEY]["channelUrl"];
-        if(channelUrl[ChannelManager.ChannelName] != null)
+        if(channelUrl[""] != null)
         {
-            var urlsArr = channelUrl[ChannelManager.ChannelName] as JSONArray;
+            var urlsArr = channelUrl[""] as JSONArray;
             for (int i = 0; i < urlsArr.Count; ++i)
                 channelUrlList.Add(urlsArr[i].Value);
         }

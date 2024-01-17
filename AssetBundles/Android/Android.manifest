@@ -1,43 +1,43 @@
 ManifestFileVersion: 0
-CRC: 1155366406
+CRC: 254784214
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: ui/loginpanel
+      Name: ui/dialoguepanel
       Dependencies: {}
     Info_1:
-      Name: config
+      Name: ui/mainmenupanel
       Dependencies: {}
     Info_2:
-      Name: dialoguetext
+      Name: ui/touchpanel
       Dependencies: {}
     Info_3:
-      Name: scenes/campingscene
-      Dependencies:
-        Dependency_0: dialoguetext
-    Info_4:
-      Name: scenes/maze
-      Dependencies:
-        Dependency_0: ui/touchpanel
-    Info_5:
       Name: scenes/maze_lv3
       Dependencies:
         Dependency_0: ui/touchpanel
-    Info_6:
-      Name: ui/dialoguepanel
+    Info_4:
+      Name: dialoguetext
       Dependencies: {}
-    Info_7:
+    Info_5:
       Name: ui/fishingpanel
       Dependencies: {}
-    Info_8:
-      Name: ui/mainmenupanel
-      Dependencies: {}
-    Info_9:
+    Info_6:
       Name: ui/registerpanel
       Dependencies: {}
-    Info_10:
-      Name: ui/taskshowpanel
+    Info_7:
+      Name: config
       Dependencies: {}
+    Info_8:
+      Name: scenes/campingscene
+      Dependencies:
+        Dependency_0: dialoguetext
+    Info_9:
+      Name: ui/loginpanel
+      Dependencies: {}
+    Info_10:
+      Name: scenes/maze
+      Dependencies:
+        Dependency_0: ui/touchpanel
     Info_11:
-      Name: ui/touchpanel
+      Name: ui/taskshowpanel
       Dependencies: {}
