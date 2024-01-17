@@ -45,8 +45,8 @@ public class ApplicationUpdater : BaseDownloader
             appUrl = getDownloadUrl();
             //appUrl = "http://182.140.217.41/dlied5.myapp.com/myapp/1104472208/1104472208/ttcz/10022602_com.tencent.tmgp.ttcz_u127_1.1.39.apk";
             //int appSize = GameSDK.Singleton.GetURLFileSize(appUrl);
-            Debuger.Log("url & size:", appUrl, appSize);
-            StartupTip.Singleton.TipNewAppUpdate(mVersion, LocalConfig.Singleton.LocalAppVersion, appSize, onYes, onNo);
+            //Debuger.Log("url & size:", appUrl, appSize);
+            //StartupTip.Singleton.TipNewAppUpdate(mVersion, LocalConfig.Singleton.LocalAppVersion, appSize, onYes, onNo);
         }else
         {
             Debuger.Log("app 没有更新");

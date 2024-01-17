@@ -1,3 +1,4 @@
 <Table>
-  <Row ID="1" Name="Trò Chuyện Cùng NPC 1" Type="1" PersonalityType="1" Scene="CampingScene" />
+  <Row ID="1" Name="Trò Chuyện Cùng NPC 1 " Type="1" PersonalityType="1" Scene="CampingScene" />
+  <Row ID="2" Name="Trò Chuyện Cùng NPC 2 " Type="1" PersonalityType="1" Scene="CampingScene" />
 </Table>

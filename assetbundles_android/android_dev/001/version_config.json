@@ -1,0 +1,33 @@
+{ 
+   "app" : "1.0.0", 
+   "forceApp" : "false", 
+   "appStore" : "true", 
+   "forceRes" : "5", 
+   "tipForceRes" : "false", 
+   "forceForceRes" : "false", 
+   "serverList" : "1.0.0", 
+   "notice" : "1.0.0", 
+   "backDownloadType" : "notice", 
+   "auditing" : "false", 
+   "gsIDs" : [ 
+      "1", 
+      "2", 
+      "3", 
+      "4"
+   ], 
+   "language" : "chinese", 
+   "codeKey" : "GameDataManager.Bean", 
+   "appUrl" : "/res/{0}/apk/{1}/{2}.apk", 
+   "configUrl" : "/res/gameconfig/{0}/{1}/version_config.json", 
+   "forceResUrl" : "/res/gameconfig/{0}/{1}/forceRes.json", 
+   "backResUrl" : "/res/gameconfig/{0}/{1}/backRes.json", 
+   "forceDownloadUrl" : "/res/{0}/{1}/force/", 
+   "backDownloadUrl" : "/res/{0}/{1}/back/", 
+   "serverListUrlNew" : "http://103.9.206.171:8090/server/server_list?ts={0}&s={1}", 
+   "serverListUrlReview" : "http://103.9.204.244:8090/server/server_list?ts={0}&s={1}&mode=review", 
+   "ApiKeyGetSvList" : "dxT81huPeQF1TGFySdGRKvMEtOGBs9y9", 
+   "noticeUrl" : "/res/gameconfig/{0}/notice.json", 
+   "loginUrl" : ":10001/pgame/server/history/?command=select&user_name={0}", 
+   "historyUrl" : "http://125.212.249.22:10001/pgame/server/history/?command=select&user_name={0}", 
+   "logUrl" : "https://929-gsscdn-com.s3.ap-southeast-1.amazonaws.com{0}{1}.byte"
+}

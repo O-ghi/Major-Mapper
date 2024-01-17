@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class GameLauncherCore : MonoBehaviour
 {
+    public GameObject gameUpdate;
     //兼容版本号
     //2---2019年3月6日添加GameSDK添加剪切板功能
     //3---2019年3月22日添加蕉玩ui统计接口JWInterface.OnWindowOpen/ABDownLoader.maxCoroutineNum改为可修改
@@ -20,63 +22,56 @@ public class GameLauncherCore : MonoBehaviour
     //14---2019年8月21日热更目录结构修改
     //15---2019年9月25日 SceneManager.LoadScene小游戏接口
     //16---2019年9月30日 添加abcManager
-    //17---2019年11月16日 使用接口render.materials = mats;
+    //17---2019年11月16日 使用接口render.materials = mats;    
     public static int CompatibleFlag = 17;
-
+    public bool isNoUpdate;
     public bool debugMode;
-#if UNITY_EDITOR
+    public bool debugModeILruntime;
+
+    //#if UNITY_EDITOR
+    public bool showProjectPath;
     public static System.Reflection.Assembly dllAssembly;
     public static ILRuntime.Runtime.Enviorment.AppDomain ilrtApp;
-#endif
+    //#endif
 
     void Awake()
     {
         Debug.Log(Time.realtimeSinceStartup + ">GameLaucher.awake>" + CompatibleFlag);
+
 #if UNITY_EDITOR
         if (!Application.isPlaying)
-        {
             return;
-        }
 #endif
-
         Debuger.Enabled = true;
         Application.logMessageReceived += Debuger.OnSystemLog;
 
-        initManager();
+        //ResDepManager.Singleton.LoadDeps();
 
+
+        initManager();
+        //Tam thoi pass hotupdate
         if (debugMode)
             launchGame();
         else
-            updateRes();
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-        //if(ChannelManager.ChannelName == "GamiPlay")
-        //    BuglyAgent.InitWithAppId("b898af8655");
-        //else
-        //    BuglyAgent.InitWithAppId("be56a8c87d"); //7.9换了新的id
-        //BuglyAgent.EnableExceptionHandler();
-        //BuglyAgent.ConfigAutoQuitApplication(false);
-        //BuglyAgent.ConfigAutoReportLogLevel(LogSeverity.LogException);
-#endif
+        {
+            StartCoroutine(updateRes());
+        }
 
         //加载配置表
-        //new ConfigLoader001().LoadConfig();
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        //Debuger.Log("GameLaucher.awake.end");
+        Debuger.Log("GameLaucher.awake.end");
     }
 
 #if UNITY_EDITOR
     private void OnGUI()
     {
-        //if (showProjectPath || !Application.isPlaying)
-        //{
-        //    var style = new GUIStyle();
-        //    style.fontSize = 22;
-        //    style.normal.textColor = Color.white;
-        //    var branch = EditorPath.CurrentBranch + "/" + EditorPath.CurrentGuoShen;
-        //    GUILayout.Label(Application.dataPath, style);
-        //    GUILayout.Label(branch, style);
-        //}
+        if (showProjectPath || !Application.isPlaying)
+        {
+            var style = new GUIStyle();
+            style.fontSize = 22;
+            style.normal.textColor = Color.white;
+            GUILayout.Label(Application.dataPath, style);
+        }
     }
 #endif
 
@@ -85,25 +80,51 @@ public class GameLauncherCore : MonoBehaviour
         gameObject.AddComponent<CoroutineManager>();
     }
 
-    private void updateRes()
+    private IEnumerator updateRes()
     {
-        //StartupManager.Singleton.Start(() => launchGame());
+        //Duong remove tat asset cu lan dau dang nhap
+        if (PlayerPrefs.GetInt("FirstJson", -999) == -999)
+        {
+            PathUtil.ClearConfigAndForceAndBack();
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.SetInt("FirstJson", 1);
+            PlayerPrefs.Save();
+            //UnityEditor.EditorApplication.isPaused = true;
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        StartupManager.Singleton.Start(() => launchGame());
     }
 
     private void launchGame()
     {
-#if UNITY_EDITOR 
-#if Main
-        GameManager.Initialize(gameObject, debugMode);
-#endif
-        //StartCoroutine(launchEditor());
+        gameUpdate.SetActive(true);
+
+        PathUtil.codeOffset = 123;
+        PathUtil.codeKey = "GameDataManager.Bean";
+#if UNITY_EDITOR
+        StartCoroutine(launchEditor());
 #elif ENABLE_IL2CPP
         StartCoroutine(launchIL2CPP());
 #else
         StartCoroutine(launchMono());
 #endif
+
     }
 
+    private bool checkExistDllBundle()
+    {
+        //check exist in force
+        var path = PathUtil.GetForceABPath(PathUtil.DllScriptBundleName);
+        if (System.IO.File.Exists(path))
+            return true;
+        //check exist in back
+        path = PathUtil.GetBackABPath(PathUtil.DllScriptBundleName);
+        if (System.IO.File.Exists(path))
+            return true;
+
+        return false;
+    }
 
 
 #if UNITY_EDITOR
@@ -116,6 +137,7 @@ public class GameLauncherCore : MonoBehaviour
 
     private IEnumerator launchEditor()
     {
+#if !Main
         bool useILRT = UnityEditor.EditorPrefs.GetBool("ILRuntime_Editor_Enable", true);
         if (useILRT)
         {
@@ -123,81 +145,160 @@ public class GameLauncherCore : MonoBehaviour
             float time = Time.realtimeSinceStartup;
             var dll = System.IO.File.ReadAllBytes(PathUtil.EditorDllPath);
             var pdb = System.IO.File.ReadAllBytes(PathUtil.EditorPdbPath);
-            if (EditorPath.HasGuoShen)
-            {
-                dll = System.IO.File.ReadAllBytes(EditorPath.GuoShenDebugDllPath);
-                pdb = System.IO.File.ReadAllBytes(EditorPath.GuoShenPdbPath);
-            }
-            var appdomain = new ILRuntime.Runtime.Enviorment.AppDomain();
+            var appdomain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntime.Runtime.ILRuntimeJITFlags.JITOnDemand);
+#if DEBUG && !NO_PROFILER && (UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS)
+            appdomain.UnityMainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
+#endif
             var fs = new System.IO.MemoryStream(dll);
             var ps = new System.IO.MemoryStream(pdb);
             appdomain.LoadAssembly(fs, ps, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
-            //appdomain.LoadAssembly(fs, ps, new Mono.Cecil.Pdb.PdbReaderProvider());
-
+            //appdomain.LoadAssembly(fs, ps, new PdbReaderProvider());
             ILRuntime.ILScriptBinder.Bind(appdomain);
             appdomain.DebugService.StartDebugService(56000);
             Debug.Log("init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
-            appdomain.Invoke("GameManager", "Initialize", null, gameObject, debugMode);
-            Debug.Log("editor init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
+            //Debuger.Log("GameManagerHotupdate is " + (appdomain.GetType("GameManagerHotupdate")!=null) );
             ilrtApp = appdomain;
+            if (debugModeILruntime)
+            {
+                UnityEditor.EditorApplication.isPaused = true;
+            }
+            appdomain.Invoke("GameManager", "Initialize", null, gameUpdate, debugMode);
+            Debug.Log("editor init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
         }
         else
         {
             //dll
             var dll = System.IO.File.ReadAllBytes(PathUtil.EditorDllPath);
-            if (EditorPath.HasGuoShen)
-                dll = System.IO.File.ReadAllBytes(EditorPath.GuoShenDebugDllPath);
-
             float time = Time.realtimeSinceStartup;
             var assembly = System.Reflection.Assembly.Load(dll);
             Debug.Log("editor init dll time > " + (Time.realtimeSinceStartup - time) + "s");
 
             var type = assembly.GetType("GameManager");
             var met = type.GetMethod("Initialize", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-            met.Invoke(null, new object[] { gameObject, debugMode });
+            met.Invoke(null, new object[] { gameUpdate, debugMode });
             dllAssembly = assembly;
         }
+#endif
         yield return null;
     }
 #elif ENABLE_IL2CPP
-    private IEnumerator launchIL2CPP()
+       private IEnumerator launchIL2CPP()
     {
-#if SO_FIX
-        //so热更
-        Debug.Log("launchIL2CPP>热更so GameManager.Initialize");
-        GameManager.Initialize(gameObject, debugMode);
-        yield return null;
-#else
-        Debug.Log("launchIL2CPP>" + Time.realtimeSinceStartup);
-        var bytes = AbcManager.Singleton.GetDll();
-        if(bytes == null)
-            bytes = PathUtil.LoadBytes(PathUtil.DllScriptBundleName);
-        float time = Time.realtimeSinceStartup;
-        var appdomain = new ILRuntime.Runtime.Enviorment.AppDomain();
-        var fs = new System.IO.MemoryStream(bytes);
-        appdomain.LoadAssembly(fs);
 
-        ILRuntime.ILScriptBinder.Bind(appdomain);
-        Debug.Log("init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
-        appdomain.Invoke("GameManager", "Initialize", null, gameObject, debugMode);
-        yield return null;
+        if (isNoUpdate || VersionConfig.IsInAuditing 
+            || checkExistDllBundle() == false)
+        {
+#if !Main
+            Debug.Log("launchIL2CPP>" + Time.realtimeSinceStartup);
+            var bytes = AbcManager.Singleton.GetDll();
+            if (bytes == null)
+                bytes = PathUtil.LoadBytesUnZip(PathUtil.DllScriptBundleName);
+            float time = Time.realtimeSinceStartup;
+
+            var appdomain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntime.Runtime.ILRuntimeJITFlags.JITOnDemand);
+            var fs = new System.IO.MemoryStream(bytes);
+            appdomain.LoadAssembly(fs);
+
+            ILRuntime.ILScriptBinder.Bind(appdomain);
+            ilrtApp = appdomain;
+            Debug.Log("init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
+            appdomain.Invoke("GameManager", "Initialize", null, gameUpdate, debugMode);
 #endif
+        yield return null;
+        }
+        else
+        {
+#if !Main
+            ABLoader.Singleton.LoadAssetBundle(PathUtil.DllScriptBundleName, (s, ab) =>
+            {
+                if (ab == null)
+                {
+                    Debug.LogError("代码ab加载失败");
+                    return;
+                }
+
+                var ta = ab.LoadAsset(s) as TextAsset;
+                if (ta == null || ta.bytes == null)
+                {
+                    Debug.LogError("代码ab中没有东西");
+                    return;
+                }
+
+                Debug.Log("launchIL2CPP>" + Time.realtimeSinceStartup);
+                var bytes = ta.bytes;
+                PathUtil.Decode(bytes);
+                float time = Time.realtimeSinceStartup;
+                var appdomain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntime.Runtime.ILRuntimeJITFlags.JITOnDemand);
+                var fs = new System.IO.MemoryStream(bytes);
+                appdomain.LoadAssembly(fs);
+
+                ILRuntime.ILScriptBinder.Bind(appdomain);
+                ilrtApp = appdomain;
+                Debug.Log("init ILRunTime time > " + (Time.realtimeSinceStartup - time) + "s");
+                appdomain.Invoke("GameManager", "Initialize", null, gameUpdate, debugMode);
+                ab.Unload(true);
+            });
+#endif
+            yield return null;
+        }
+       
     }
 #else
     private IEnumerator launchMono()
     {
-        Debug.Log("launchMono>" + Time.realtimeSinceStartup);
-        var bytes = AbcManager.Singleton.GetDll();
-        if(bytes == null)
-            bytes = PathUtil.LoadBytes(PathUtil.DllScriptBundleName);
-        float time = Time.realtimeSinceStartup;
-        var assembly = System.Reflection.Assembly.Load(bytes);
-        Debug.Log("init dll time > " + (Time.realtimeSinceStartup - time) + "s");
-            
-        var type = assembly.GetType("GameManager");
-        var met = type.GetMethod("Initialize", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-        met.Invoke(null, new object[] { gameObject, debugMode });
-        yield return null;
+
+        if (isNoUpdate /*|| VersionConfig.IsInAuditing */
+            || checkExistDllBundle() == false)
+        {
+#if !Main
+            Debug.Log("launchMono>" + Time.realtimeSinceStartup);
+            var bytes = AbcManager.Singleton.GetDll();
+            if (bytes == null)
+                bytes = PathUtil.LoadBytesUnZip(PathUtil.DllScriptBundleName);
+            float time = Time.realtimeSinceStartup;
+            var assembly = System.Reflection.Assembly.Load(bytes);
+            Debug.Log("init dll time > " + (Time.realtimeSinceStartup - time) + "s");
+
+            var type = assembly.GetType("GameManager");
+            var met = type.GetMethod("Initialize", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+            met.Invoke(null, new object[] { gameUpdate, debugMode });
+#endif
+            yield return null;
+        }
+        else
+        {
+#if !Main
+            //dll更新
+            ABLoader.Singleton.LoadAssetBundle(PathUtil.DllScriptBundleName, (s, ab) => {
+                if (ab == null)
+                {
+                    Debug.LogError("代码ab加载失败");
+                    return;
+                }
+
+                var ta = ab.LoadAsset(s) as TextAsset;
+                if (ta == null || ta.bytes == null)
+                {
+                    Debug.LogError("代码ab中没有东西");
+                    return;
+                }
+
+                Debug.Log("launchMono>" + Time.realtimeSinceStartup);
+                var bytes = ta.bytes;
+                PathUtil.Decode(bytes);
+                float time = Time.realtimeSinceStartup;
+                var assembly = System.Reflection.Assembly.Load(bytes);
+                Debug.Log("init dll time > " + (Time.realtimeSinceStartup - time) + "s");
+
+                var type = assembly.GetType("GameManager");
+                var met = type.GetMethod("Initialize", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                met.Invoke(null, new object[] { gameUpdate, debugMode });
+                ab.Unload(true);
+            });
+#endif
+            yield return null;
+        }
+       
     }
 #endif
 }
