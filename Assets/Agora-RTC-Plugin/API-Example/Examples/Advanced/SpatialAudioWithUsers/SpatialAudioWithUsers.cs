@@ -20,7 +20,7 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Advanced.SpatialAudioWithUsers
     {
 
 #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
-    private ArrayList permissionList = new ArrayList() { Permission.Camera, Permission.Microphone };
+        private ArrayList permissionList = new ArrayList() { Permission.Camera, Permission.Microphone };
 #endif
         // Fill in your app ID.
         public string _appID = "";
@@ -50,13 +50,13 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Advanced.SpatialAudioWithUsers
         private void CheckPermissions()
         {
 #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
-        foreach (string permission in permissionList)
-        {
-            if (!Permission.HasUserAuthorizedPermission(permission))
+            foreach (string permission in permissionList)
             {
-                Permission.RequestUserPermission(permission);
+                if (!Permission.HasUserAuthorizedPermission(permission))
+                {
+                    Permission.RequestUserPermission(permission);
+                }
             }
-        }
 #endif
         }
         void Update()

@@ -25,7 +25,8 @@ namespace Agora_RTC_Plugin.API_Example
 
         private string[] _baseSceneNameList = {
         "BasicAudioCallScene",
-        
+        "BasicVideoCallScene",
+                
     };
 
         private string[] _advancedNameList = {

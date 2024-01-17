@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,16 +11,17 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 using AgoraIO.Media;
 using Agora_RTC_Plugin.API_Example;
+using Unity.VisualScripting;
+
 
 public class BookingManager : MonoBehaviour
 {
     public Text bookingPageEmailText;
     public Text bookingPagePasswordText;
     public InputField dateInput; // Input field for year/month/day
-    public Dictionary<int, string> consultantNames = new Dictionary<int, string>(); 
+    public Dictionary<int, string> consultantNames = new Dictionary<int, string>();
     // Dropdown menu to display available slots (initially empty)
     public Button BackButton;
     public Button ForwardButton;
@@ -39,10 +40,10 @@ public class BookingManager : MonoBehaviour
     // List to store fetched slot data
     private List<SlotData> slots;
     private int playerId;
+    private string accessToken;
     private long bookedSlotId;
     private string bookedDate;
     private string bookedTime;
-    private string bookedConsultantName;
     private string loggedInUsername;
     private NetworkingManager networkingManagerInstance; // Assuming you have an instance
 
@@ -76,7 +77,9 @@ public class BookingManager : MonoBehaviour
     {
         // Get player ID from PlayerPrefs
         playerId = PlayerPrefs.GetInt("playerId");
+        accessToken = PlayerPrefs.GetString("accessToken");
         Debug.Log("Player ID: " + playerId);
+        Debug.Log("accessToken: " + accessToken);
 
         // Handle dropdown selection change
         slotDropdown.onValueChanged.AddListener(SlotDropdown_ValueChanged);
@@ -109,60 +112,8 @@ public class BookingManager : MonoBehaviour
         networkingManagerInstance.OnLoginSuccess += OnLoginSuccessHandler;
 
         videoCallButton.onClick.AddListener(OnVideoCallButtonClick);
-
-        PermissionHelper.RequestMicrophontPermission();
-        PermissionHelper.RequestCameraPermission();
-
-        GameObject content = GameObject.Find("Content");
-
-        for (int i = 0; i < _baseSceneNameList.Length; i++)
-        {
-            var go = Instantiate(CasePanel, content.transform);
-            var name = go.transform.Find("Text").gameObject.GetComponent<Text>();
-            name.text = _baseSceneNameList[i];
-            var button = go.transform.Find("Button").gameObject.GetComponent<Button>();
-            button.onClick.AddListener(OnJoinSceneClicked);
-            button.onClick.AddListener(SetScolllerActive);
-        }
     }
 
-    private void OnApplicationQuit()
-    {
-        Debug.Log("OnApplicationQuit");
-    }
-
-    public void OnLeaveButtonClicked()
-    {
-        StartCoroutine(UnloadSceneAsync());
-        CaseScrollerView.SetActive(true);
-    }
-
-    public IEnumerator UnloadSceneAsync()
-    {
-        if (this._playSceneName != "")
-        {
-            AsyncOperation async = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(_playSceneName);
-            yield return async;
-            EventSystem.gameObject.SetActive(true);
-        }
-    }
-
-    public void OnJoinSceneClicked()
-    {
-        var button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-        var sceneName = button.transform.parent.Find("Text").gameObject.GetComponent<Text>().text;
-
-        EventSystem.gameObject.SetActive(false);
-
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-        this._playSceneName = sceneName;
-
-    }
-
-    public void SetScolllerActive()
-    {
-        CaseScrollerView.SetActive(false);
-    }
 
     private void OnEnable()
     {
@@ -202,6 +153,7 @@ public class BookingManager : MonoBehaviour
         {
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                 var response = await client.GetAsync(apiUrl);
 
                 if (response.IsSuccessStatusCode)
@@ -253,7 +205,7 @@ public class BookingManager : MonoBehaviour
             return;
         }
 
-        FetchSlotData(newDate); 
+        FetchSlotData(newDate);
     }
 
     async void FetchSlotData(string date)
@@ -264,6 +216,8 @@ public class BookingManager : MonoBehaviour
         {
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                Debug.Log("Request Headers: " + string.Join(", ", client.DefaultRequestHeaders.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
                 var response = await client.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
@@ -304,19 +258,31 @@ public class BookingManager : MonoBehaviour
     void PopulateDropdown(List<SlotData> slots)
     {
         slotDropdown.options.Clear();
+        List<SlotData> slotData = new List<SlotData>();
 
         foreach (var slot in slots)
         {
-            // Extract time portion from startDateTime
+            var exits = false;
+            for (var j = 0; j < slotData.Count; j++)
+            {
+                if (slotData[j].startDateTime == slot.startDateTime)
+                {
+                    exits = true;
+                    break;
+                }
+            }
+            if (!exits)
+            {
+                slotData.Add(slot); 
+            }
+        }
+        foreach(var slot in slotData)
+        {
             string time = slot.startDateTime.Substring(11, 8);
 
-            // Get consultant name based on consultantId
-            string consultantName = consultantNames.TryGetValue(slot.consultantId, out var name) ? name : "Unknown";
-
-            Dropdown.OptionData option = new Dropdown.OptionData($"ID: {slot.id} - {consultantName} - {time}");
+            Dropdown.OptionData option = new Dropdown.OptionData($"{time} giờ");
             slotDropdown.options.Add(option);
         }
-
         slotDropdown.RefreshShownValue();
     }
 
@@ -370,7 +336,7 @@ public class BookingManager : MonoBehaviour
 
 
 
-    private void OnValidate() 
+    private void OnValidate()
     {
         slotDropdown.ClearOptions();
     }
@@ -415,7 +381,7 @@ public class BookingManager : MonoBehaviour
         long selectedSlotId = selectedSlot.id;
 
         Debug.Log($"Player ID: {playerId}, Selected Slot ID: {selectedSlotId}");
-            
+
         // Build BookingData object
         BookingData bookingData = new BookingData();
         bookingData.playerId = playerId;
@@ -432,7 +398,7 @@ public class BookingManager : MonoBehaviour
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-
+            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
             // Send the request
             yield return request.SendWebRequest();
 
@@ -449,20 +415,19 @@ public class BookingManager : MonoBehaviour
                 ShowNotification();
 
                 // Store booking details
-                bookedConsultantName = consultantNames.TryGetValue(selectedSlot.consultantId, out var name) ? name : "Unknown";
                 bookedDate = dateInput.text;
                 bookedTime = selectedSlot.startDateTime.Substring(11, 8);
 
                 // Display details in the DetailPanel
                 SetDetailPanelData();
-                }
-                else
-                {
-                    Debug.LogError("Booking failed: " + request.error);
+            }
+            else
+            {
+                Debug.LogError("Booking failed: " + request.error);
 
-                    // Show failure notification
-                    ShowFailureNotification();
-                }
+                // Show failure notification
+                ShowFailureNotification();
+            }
         }
     }
 
@@ -470,7 +435,6 @@ public class BookingManager : MonoBehaviour
     {
         // Set input fields in the DetailPanel
         moneyInputField.text = "100,000 VND";
-        consultantNameInputField.text = bookedConsultantName;
         dateInputField.text = bookedDate;
         timeInputField.text = bookedTime;
     }
@@ -481,7 +445,7 @@ public class BookingManager : MonoBehaviour
     }
 
     void ShowFailureNotification()
-    {   
+    {
         failureNotificationPanel.SetActive(true);
     }
 
@@ -558,28 +522,26 @@ public class BookingManager : MonoBehaviour
         string channelName = playerId.ToString();
 
         // Generate token
-        string token = GenerateToken(playerId);
+        string token = GenerateToken(channelName);
 
         // Store parameters for retrieval in the VideoCanvas scene
         PlayerPrefs.SetString("VideoCallAppId", appId);
         PlayerPrefs.SetString("VideoCallToken", token);
-
-        // Save PlayerPrefs changes
-        PlayerPrefs.Save();
     }
 
-    public string GenerateToken(int playerId)
+    public string GenerateToken(string channelName)
     {
-        // Replace with your actual Agora App ID and App Certificate
-       string appId = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";
-       string appCertificate = "b1f5ac0e01f04a58a3fb5f6c43b903c4"; // Replace with your actual App Certificate
-       string channelName = playerId.ToString();
-       uint uid = (uint)playerId;
-       uint expirationTimeInSeconds = 3600; 
+        string appId = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";
+        string appCertificate = "b1f5ac0e01f04a58a3fb5f6c43b903c4";
+        uint uid = 0;
+        uint expirationTimeInSeconds = 3600;
+        uint currentTimeStamp = (uint)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        uint privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds;
+        RtcTokenBuilder.Role role = RtcTokenBuilder.Role.RolePublisher;
 
-       string token = RtcTokenBuilder.buildTokenWithUID(appId, appCertificate, channelName, uid, RtcTokenBuilder.Role.RolePublisher, expirationTimeInSeconds);
+        string token = RtcTokenBuilder.buildTokenWithUID(appId, appCertificate, channelName, uid, role, privilegeExpiredTs);
 
-       return token;
+        return token;
     }
 
     [Serializable]

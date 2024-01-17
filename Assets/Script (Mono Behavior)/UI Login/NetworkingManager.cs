@@ -250,6 +250,7 @@ public class NetworkingManager : MonoBehaviour
                 if (player != null)
                 {
                     PlayerPrefs.SetInt("playerId", player.id); // Replace "id" with your actual property name
+                    PlayerPrefs.SetString("accessToken", player.accessToken);
                     UnityEngine.SceneManagement.SceneManager.LoadScene("UI Booking");
 
                     // Call OnLoginSuccess event

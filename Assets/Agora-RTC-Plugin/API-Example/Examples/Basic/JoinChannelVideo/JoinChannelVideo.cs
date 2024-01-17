@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Serialization;
 using Agora.Rtc;
-
-
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using SimpleJSON;
 
 namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
 {
@@ -31,9 +32,6 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
         public Text LogText;
         internal Logger Log;
         internal IRtcEngine RtcEngine = null;
-        public static string appId;
-        public static string channelName;
-        public static string token;
 
         public Dropdown _videoDeviceSelect;
         private IVideoDeviceManager _videoDeviceManager;
@@ -42,7 +40,12 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
         // Use this for initialization
         private void Start()
         {
-            StartCoroutine(FetchPlayerIdAndJoinChannel());
+            LoadAssetData();
+            if (CheckAppId())
+            {
+                InitEngine();
+                SetBasicConfiguration();
+            }
         }
 
         // Update is called once per frame
@@ -56,10 +59,12 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
         [ContextMenu("ShowAgoraBasicProfileData")]
         private void LoadAssetData()
         {
-            if (_appIdInput == null) return;
-            _appID = _appIdInput.appID;
-            _token = _appIdInput.token;
-            _channelName = _appIdInput.channelName;
+            string playerId = PlayerPrefs.GetInt("playerId").ToString();
+            BookingManager bookingManager = new BookingManager();
+            // Set channel_name and token
+            _channelName = playerId.ToString();
+            _token = bookingManager.GenerateToken(playerId);
+            _appID = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";
         }
 
         private bool CheckAppId()
@@ -84,7 +89,7 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
             RtcEngine.EnableAudio();
             RtcEngine.EnableVideo();
             VideoEncoderConfiguration config = new VideoEncoderConfiguration();
-            config.dimensions = new VideoDimensions(640, 360);
+            config.dimensions = new VideoDimensions(180, 360);
             config.frameRate = 15;
             config.bitrate = 0;
             RtcEngine.SetVideoEncoderConfiguration(config);
@@ -97,10 +102,10 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
         public void JoinChannel()
         {
             // Log appId, channelName, and token
-            Debug.Log("JoinChannel - appId: " + appId + ", channelName: " + channelName + ", token: " + token);
+            Debug.Log("JoinChannel - appId: " + _appID + ", channelName: " + _channelName + ", token: " + _token);
 
             // Join the channel
-            RtcEngine.JoinChannel(token, channelName);
+            RtcEngine.JoinChannel(_token, _channelName);
 
             // Make video view
             MakeVideoView(0);
@@ -199,74 +204,6 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
             RtcEngine.LeaveChannel();
             RtcEngine.Dispose();
         }
-
-        private System.Collections.IEnumerator FetchPlayerIdAndJoinChannel()
-        {
-            string apiUrl = "https://majormapperapi.azurewebsites.net/api/Account";
-
-            using (WWW www = new WWW(apiUrl))
-            {
-                yield return www;
-
-                if (string.IsNullOrEmpty(www.error))
-                {
-                    try
-                    {
-                        // Parse the JSON array
-                        var jsonArray = JsonUtility.FromJson<UserDataArray>("{\"items\":" + www.text + "}");
-
-                        if (jsonArray != null && jsonArray.items.Length > 0)
-                        {
-                            // Extract the player ID from the first user object
-                            int playerId = jsonArray.items[0].id;
-                            BookingManager bookingManager = new BookingManager();
-                            
-
-                            // Set channel_name and token
-                            JoinChannelVideo.channelName = playerId.ToString();
-                            JoinChannelVideo.token = bookingManager.GenerateToken(playerId);
-                            JoinChannelVideo.appId = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";
-
-                            // Initialize engine and set basic configurations
-                            InitEngine();
-                            SetBasicConfiguration();
-
-                            // Join the channel
-                            JoinChannel();
-                        }
-                        else
-                        {
-                            Debug.LogError("Failed to extract player ID from API response: Empty or invalid JSON array");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError("Failed to parse JSON array: " + ex.Message);
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Failed to fetch player ID: " + www.error);
-                }
-            }
-        }
-
-        // Define a class to represent the user data array in the JSON response
-        [System.Serializable]
-        public class UserDataArray
-        {
-            public UserData[] items;
-        }
-
-        // Define a class to represent the user data in the JSON array
-        [System.Serializable]
-        public class UserData
-        {
-            public int id;
-            // Add other properties as needed
-        }
-
-
 
         internal string GetChannelName()
         {
@@ -409,6 +346,7 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
                 string.Format("OnJoinChannelSuccess channelName: {0}, uid: {1}, elapsed: {2}",
                                 connection.channelId, connection.localUid, elapsed));
         }
+
 
         public override void OnRejoinChannelSuccess(RtcConnection connection, int elapsed)
         {
