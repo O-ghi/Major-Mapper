@@ -29,6 +29,14 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
         [SerializeField]
         private string _channelName = "";
 
+        private uint localUserId;
+
+        public uint LocalUserId
+        {
+            get => localUserId;
+        }
+        public PlayerVideo host1;
+        public PlayerVideo host2;
         public Text LogText;
         internal Logger Log;
         internal IRtcEngine RtcEngine = null;
@@ -66,7 +74,7 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
             _token = bookingManager.GenerateToken(playerId);
             _appID = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";
         }
-
+        
         private bool CheckAppId()
         {
             Log = new Logger(LogText);
@@ -89,7 +97,7 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
             RtcEngine.EnableAudio();
             RtcEngine.EnableVideo();
             VideoEncoderConfiguration config = new VideoEncoderConfiguration();
-            config.dimensions = new VideoDimensions(180, 360);
+            config.dimensions = new VideoDimensions(90, 180);
             config.frameRate = 15;
             config.bitrate = 0;
             RtcEngine.SetVideoEncoderConfiguration(config);
@@ -127,7 +135,7 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
             DestroyVideoView(0);
             RtcEngine.StopPreview();
         }
-
+        
         public void StartPublish()
         {
             var options = new ChannelMediaOptions();
@@ -297,15 +305,16 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
             }
 
             // set up transform
-            go.transform.Rotate(0f, 0.0f, 180.0f);
-            go.transform.localPosition = Vector3.zero;
+            go.transform.Rotate(0.0f, 0.0f, 180.0f);
+            go.transform.localPosition = new Vector3(-353.5f, -179.81f, 0f);
             go.transform.localScale = new Vector3(2f, 3f, 1f);
+
 
             // configure videoSurface
             var videoSurface = go.AddComponent<VideoSurface>();
             return videoSurface;
         }
-
+     
         internal static void DestroyVideoView(uint uid)
         {
             var go = GameObject.Find(uid.ToString());
@@ -345,6 +354,7 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
             _videoSample.Log.UpdateLog(
                 string.Format("OnJoinChannelSuccess channelName: {0}, uid: {1}, elapsed: {2}",
                                 connection.channelId, connection.localUid, elapsed));
+            _videoSample.host1.Set(0);
         }
 
 
@@ -367,6 +377,8 @@ namespace Agora_RTC_Plugin.API_Example.Examples.Basic.JoinChannelVideo
         {
             _videoSample.Log.UpdateLog(string.Format("OnUserJoined uid: ${0} elapsed: ${1}", uid, elapsed));
             JoinChannelVideo.MakeVideoView(uid, _videoSample.GetChannelName());
+            _videoSample.host2.Set(uid);
+            _videoSample.host2.gameObject.SetActive(true);
         }
 
         public override void OnUserOffline(RtcConnection connection, uint uid, USER_OFFLINE_REASON_TYPE reason)

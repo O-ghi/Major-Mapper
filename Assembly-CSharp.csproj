@@ -202,6 +202,7 @@
     <Compile Include="Assets\ScriptsLogic\NpcEntity.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\ILConfScript\ILRunTimeID.cs" />
     <Compile Include="Assets\Agora-RTC-Plugin\Agora-Unity-RTC-SDK\Code\Rtc\Impl\MusicContentCenter.cs" />
+    <Compile Include="Assets\TestAgora.cs" />
     <Compile Include="Assets\Agora-RTC-Plugin\Agora-Unity-RTC-SDK\Code\Rtc\ISpatialAudio.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\Runtime\Stack\StackObjectAllocator.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\Runtime\Debugger\Protocol\SCEnumChildrenResult.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Assets\Agora-RTC-Plugin\API-Example\Tools\RingBuffer.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\Runtime\CLRBinding\BindingCodeGenerator.cs" />
     <Compile Include="Assets\ScriptsLogic\PersonalityProperty\PersonalityBase.cs" />
+    <Compile Include="Assets\PlayerVideo.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\ILConfScript\Adapter\ILPlayableBehivourAdapter.cs" />
     <Compile Include="Assets\PluginAssets\StartUp\StartupManager.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\Runtime\CLRBinding\CommonBindingGenerator.cs" />
@@ -471,7 +473,6 @@
     <Compile Include="Assets\ScriptsLogic\Manager\QuickVarListManager\Variant.cs" />
     <Compile Include="Assets\Scripts\FrameWork\Net\BaseMessage.cs" />
     <Compile Include="Assets\Scripts\FrameWork\third\F23.StringSimilarity\Damerau.cs" />
-    <Compile Include="Assets\AgoraVideoSetup.cs" />
     <Compile Include="Assets\Agora-RTC-Plugin\API-Example\Examples\Advanced\JoinChannelVideoToken\JoinChannelVideoToken.cs" />
     <Compile Include="Assets\Agora-RTC-Plugin\API-Example\Tools\RequestToken.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\CLR\TypeSystem\ILGenericParameterType.cs" />
@@ -525,6 +526,7 @@
     <Compile Include="Assets\PluginAssets\ILRuntime\Other\DelegateExportAttribute.cs" />
     <Compile Include="Assets\Agora-RTC-Plugin\API-Example\Examples\Advanced\MusicPlayer\MusicPlayerExample.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\Runtime\Debugger\Protocol\CSStep.cs" />
+    <Compile Include="Assets\BookingTest.cs" />
     <Compile Include="Assets\PluginAssets\ILRuntime\Runtime\Debugger\Protocol\SCResolveVariableResult.cs" />
     <Compile Include="Assets\Scripts\FrameWork\Assetbundle\OurMiniJson.cs" />
     <Compile Include="Assets\PluginAssets\StartUp\LocalConfig.cs" />

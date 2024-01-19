@@ -213,6 +213,18 @@ public class NetworkingManager : MonoBehaviour
 
     public IEnumerator LogIn(/*string email, string password*/)
     {
+        string email = LoginEmailInputField.text;
+        string password = LoginPasswordInputField.text;
+
+        // Check email syntax
+        if (!IsValidEmail(email))
+        {
+            // Show a panel or display a message indicating login failure
+            Debug.Log("Login failed. Invalid email syntax.");
+            // You may want to display an error panel or a message to the player here.
+            yield break; // Exit the LogIn method if email syntax is invalid.
+        }
+
         LoginObject loginObject = new LoginObject();
         loginObject.email = LoginEmailInputField.text;
         loginObject.password = LoginPasswordInputField.text;
@@ -266,6 +278,13 @@ public class NetworkingManager : MonoBehaviour
                 Debug.LogError("Empty response received from the server.");
             }
         }
+    }
+    private bool IsValidEmail(string email)
+    {
+        // You can use a simple regular expression for basic email validation
+        string emailPattern = @"^[a-zA-Z0-9_.+-]+@gmail\.com$";
+        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(emailPattern);
+        return regex.IsMatch(email);
     }
 
 
