@@ -32,7 +32,7 @@ public class ForceFileList : BaseDownloader
     public void CheckUpdate(int localVersion, System.Action callback)
     {
 #if UNITY_EDITOR 
-        if(PlayerPrefs.GetInt("SimulateHotUpdate",0) == 1)
+        if(true)
         {
             Debug.Log("Simulate HotUpdate");
             checkHotUpdate(localVersion, callback);
@@ -67,7 +67,7 @@ public class ForceFileList : BaseDownloader
     public override void Download()
     {
         Debug.Log("ForceFileList download: " + getDownloadUrl());
-        WWWLoader.Singleton.Download(getDownloadUrl() + "?" + mVersion, onLoadCmp, null);
+        WWWLoader.Singleton.Download(getDownloadUrl(), onLoadCmp, null);
         //UnityWebLoader.Singleton.Download(getDownloadUrl() + "?" + mVersion, onLoadCmp, null);
     }
 
@@ -95,7 +95,7 @@ public class ForceFileList : BaseDownloader
 
     protected override string getDownloadUrl()
     {
-        return string.Format("");
+        return getOrgUrl();
     }
 
     /// <summary>
@@ -174,12 +174,11 @@ public class ForceFileList : BaseDownloader
                     for (int i = 0, len = arr.Count; i < len; ++i)
                     {
                         var resPath = arr[i]["name"].Value;
+                        Debuger.Log("ForceFileList " + resPath);
                         if (resPath.IndexOf("/") > 0)
                         {
                             var pathArr = resPath.Split('/');
                             //只读取当前语言配置
-                            if (PathUtil.resLanguage != pathArr[0])
-                                continue;
                             folder = pathArr[0];
                             res = pathArr[1];
                         }
@@ -340,7 +339,7 @@ public class ForceFileList : BaseDownloader
             if (loadedMap.ContainsKey(resName))
                 continue;
             //Debug.Log("url: " + url + " ||| resName: " + resName + " || Format " + PathUtil.GetServerPath(url, resName));
-            var serverPath = string.Format(PathUtil.GetServerPath(url, resName), fe.version);
+            var serverPath = string.Format(PathUtil.GetServerPath(url, resName), mVersion);
             filePathMap[serverPath] = fe;
             WWWLoader.Singleton.Download(serverPath, onFileLoaded, onLoadUpdate, fe.md5);
         }
@@ -411,6 +410,7 @@ public class ForceFileList : BaseDownloader
     /// </summary>
     protected virtual void onFileLoaded(string path, bool success, byte[] data)
     {
+        Debuger.Log("onFileLoaded " + path);
         var fe = filePathMap[path];
         string name = fe.resName;
         if (!string.IsNullOrEmpty(fe.folder))

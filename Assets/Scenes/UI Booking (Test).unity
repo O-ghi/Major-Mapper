@@ -1423,7 +1423,6 @@ MonoBehaviour:
   detailPanel: {fileID: 256190097}
   Thanhtoanbutton: {fileID: 775069180}
   moneyInputField: {fileID: 70773199}
-  paymentLinkText: {fileID: 0}
 --- !u!4 &939049142
 Transform:
   m_ObjectHideFlags: 0

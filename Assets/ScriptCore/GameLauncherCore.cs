@@ -54,7 +54,7 @@ public class GameLauncherCore : MonoBehaviour
             launchGame();
         else
         {
-            StartCoroutine(updateRes());
+           updateRes();
         }
 
         //加载配置表
@@ -80,18 +80,9 @@ public class GameLauncherCore : MonoBehaviour
         gameObject.AddComponent<CoroutineManager>();
     }
 
-    private IEnumerator updateRes()
+    private void updateRes()
     {
-        //Duong remove tat asset cu lan dau dang nhap
-        if (PlayerPrefs.GetInt("FirstJson", -999) == -999)
-        {
-            PathUtil.ClearConfigAndForceAndBack();
-            PlayerPrefs.DeleteAll();
-            PlayerPrefs.SetInt("FirstJson", 1);
-            PlayerPrefs.Save();
-            //UnityEditor.EditorApplication.isPaused = true;
-            yield return new WaitForSeconds(0.2f);
-        }
+  
 
         StartupManager.Singleton.Start(() => launchGame());
     }
@@ -100,10 +91,13 @@ public class GameLauncherCore : MonoBehaviour
     {
         gameUpdate.SetActive(true);
 
-        PathUtil.codeOffset = 123;
-        PathUtil.codeKey = "GameDataManager.Bean";
+        //PathUtil.codeOffset = 123;
+        //PathUtil.codeKey = "GameDataManager.Bean";
 #if UNITY_EDITOR
-        StartCoroutine(launchEditor());
+#if Main
+        GameManager.Initialize(gameObject, false);
+#endif
+        //StartCoroutine(launchEditor());
 #elif ENABLE_IL2CPP
         StartCoroutine(launchIL2CPP());
 #else

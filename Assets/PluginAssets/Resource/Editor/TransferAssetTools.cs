@@ -7,7 +7,7 @@ public class TransferAssetTools : ScriptableObject
 
     private const string BinaryAssetPath = "Assets/Bin/";
 
-    [MenuItem("Tools/TransAssetToPGame-PGameLogic")]
+    [MenuItem("Tools/TransAssetToGame-GameLogic")]
     public static void TransferAsset()
     {
         string ScriptPGameLogicPath = Path.GetFullPath(Application.dataPath + "/../GameCore/code/trunk/GameLogic/Script/");

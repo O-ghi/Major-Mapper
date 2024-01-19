@@ -1,0 +1,1 @@
+Auto_AddScriptToPro.exe PGameLogic.csproj Scripts bat_config.json debug android

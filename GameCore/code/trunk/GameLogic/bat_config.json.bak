@@ -1,0 +1,7 @@
+{
+	"debug": "true",
+	"platform": "android",
+	"androidDllPath": "..\\..\\..\\MajorMapperCore\\GameDLL\\",
+	"androidDef": "TRACE;UNITY_ANDROID,UNITY_5_3_OR_NEWER",
+	"androidDebugDef": "TRACE;DEBUG;UNITY_ANDROID,UNITY_EDITOR,UNITY_5_3_OR_NEWER"
+}

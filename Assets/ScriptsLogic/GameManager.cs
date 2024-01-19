@@ -30,7 +30,7 @@ public class GameManager: MonoBehaviourSingleton<GameManager>
         EntityManager.CreateInstance();
         TaskManager.CreateInstance();
 
-        var mainmenu = PanelManager.SetPanel("MainMenuPanel");
+        //var mainmenu = PanelManager.SetPanel("MainMenuPanel");
 
     }
     private void InitManager()

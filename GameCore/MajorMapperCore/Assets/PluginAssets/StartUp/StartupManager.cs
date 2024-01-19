@@ -15,7 +15,7 @@ public class StartupManager
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
                 instance = new StartupManager();
             return instance;
         }
@@ -176,7 +176,7 @@ public class StartupManager
         //ServerList.Singleton.Reset(VersionConfig.Singleton.ServerListVersion);
         //ServerList.Singleton.SetUrlList(VersionConfig.Singleton.ServerListUrlList);
         //ServerList.Singleton.setApiKey(VersionConfig.Singleton.ApiKeyGetSvList);
-       //Debug.Log("ServerListUrlList length " + VersionConfig.Singleton.ServerListUrlList.Count);
+        //Debug.Log("ServerListUrlList length " + VersionConfig.Singleton.ServerListUrlList.Count);
 
         //公告
         //Notice.Singleton.Reset(VersionConfig.Singleton.NoticeVersion);
@@ -262,7 +262,7 @@ public class StartupManager
                 }
             }
         }
-        if(PlayerPrefs.HasKey("_StartUp_Repair_Game"))
+        if (PlayerPrefs.HasKey("_StartUp_Repair_Game"))
         {
             PlayerPrefs.DeleteKey("_StartUp_Repair_Game");
             PlayerPrefs.Save();
@@ -282,7 +282,7 @@ public class StartupManager
         else
         {
             Debug.Log("Check update local version: " + LocalConfig.Singleton.LocalForceResVersion
-                       +" || remote version "+ VersionConfig.Singleton.ForceResVersion);
+                       + " || remote version " + VersionConfig.Singleton.ForceResVersion);
 
             ForceFileList.Singleton.CheckUpdate(LocalConfig.Singleton.LocalForceResVersion, startEnd);
         }
@@ -294,10 +294,10 @@ public class StartupManager
         LocalConfig.Singleton.SaveToLocal(VersionConfig.Singleton.ForceResVersion);
         bool appChanged = LocalConfig.Singleton.IsNewApp || LocalConfig.Singleton.IsOldApp;
         ResDepManager.Singleton.LoadDeps(appChanged);
-        ConfigManager.Singleton.LoadBeans(appChanged);
+        //ConfigManager.Singleton.LoadBeans(appChanged);
 
         //ServerList.Singleton.CheckUpdate(null);
-        Notice.Singleton.CheckUpdate(null);
+        //Notice.Singleton.CheckUpdate(null);
 
         //StartupTip.Singleton.DisposeView();
 

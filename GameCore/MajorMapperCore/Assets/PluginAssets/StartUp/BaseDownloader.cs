@@ -48,16 +48,16 @@ public class BaseDownloader
     /// </summary>
     protected virtual void onLoadCmp(string path, bool success, byte[] data)
     {
-		Loaded = false;
-        if(!success || data == null)
+        Loaded = false;
+        if (!success || data == null)
         {
-            if(!AllUrlTried())
+            if (!AllUrlTried())
                 Download();
             else
                 Loaded = true;
         }
 
-        if(success && data != null)
+        if (success && data != null)
         {
             Loaded = true;
         }
@@ -70,7 +70,7 @@ public class BaseDownloader
     {
         if (loadedBytes > 0 && progress > 0)
             Debuger.Log("onLoadUpdate " + GetType().Name + " | " + progress + " | " + (long)(loadedBytes / progress));
-            //StartupTip.Singleton.TipProgress(GetType().Name, progress, (long)(loadedBytes / progress));
+        //StartupTip.Singleton.TipProgress(GetType().Name, progress, (long)(loadedBytes / progress));
     }
 
     protected virtual string getDownloadUrl()
@@ -78,7 +78,7 @@ public class BaseDownloader
         //Debug.Log("Channel "+ ChannelManager.Channel);
         Debug.Log("ConfigTag " + LocalConfig.Singleton.ConfigTag);
 
-        return string.Format("");
+        return getOrgUrl();
     }
 
     protected virtual string getOrgUrl()
@@ -87,7 +87,7 @@ public class BaseDownloader
             urlIdx = 0;
         int idx = urlIdx;
         urlIdx++;
-        if(urlList.Count > idx)
+        if (urlList.Count > idx)
             return urlList[idx];
         Debug.Log("没有找到下载地址" + GetType().Name);
         return "";
@@ -116,7 +116,7 @@ public class BaseDownloader
     /// </summary>
     public void SetUrlList(List<string> list)
     {
-        if(list!= null && list.Count > 0)
+        if (list != null && list.Count > 0)
         {
             urlList.Clear();
             urlList.AddRange(list);

@@ -34,7 +34,7 @@ namespace ILRuntime
             //arr = Mono.Empty<Mono.Cecil.ArrayDimension>.Array;
             if (Application.isPlaying)
             {
-#if !ONLY_PGAME
+#if !Main
                 ILGetAddComponent.Bind(appdomain);
                 float time = Time.realtimeSinceStartup;
                 //ILRuntime.Runtime.Generated.CLRBindings.Initialize(appdomain);

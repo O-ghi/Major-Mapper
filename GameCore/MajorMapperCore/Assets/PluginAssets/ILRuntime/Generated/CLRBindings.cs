@@ -45,12 +45,11 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_Screen_Binding.Register(app);
             System_NotSupportedException_Binding.Register(app);
             UnityEngine_Component_Binding.Register(app);
-            System_Object_Binding.Register(app);
-            Debuger_Binding.Register(app);
             System_String_Binding.Register(app);
             System_Threading_Thread_Binding.Register(app);
             GameInfoManager_Binding.Register(app);
             System_IO_Directory_Binding.Register(app);
+            System_Object_Binding.Register(app);
             System_DateTime_Binding.Register(app);
             UnityEngine_Networking_UnityWebRequest_Binding.Register(app);
             UnityEngine_Networking_DownloadHandler_Binding.Register(app);
@@ -97,6 +96,7 @@ namespace ILRuntime.Runtime.Generated
             System_Xml_XmlNodeList_Binding.Register(app);
             System_Action_1_Dictionary_2_String_List_1_List_1_ILTypeInstance_Binding.Register(app);
             System_Action_Binding.Register(app);
+            Debuger_Binding.Register(app);
             System_Collections_Generic_List_1_Action_Binding.Register(app);
             System_Collections_Generic_List_1_MemberInfo_Binding.Register(app);
             System_Collections_Generic_List_1_Object_Binding.Register(app);
@@ -139,9 +139,6 @@ namespace ILRuntime.Runtime.Generated
             PlayerInput_Binding_GameActions_Binding.Register(app);
             UnityEngine_InputSystem_InputAction_Binding_CallbackContext_Binding.Register(app);
             UnityEngine_Vector2_Binding.Register(app);
-            GameLauncherCore_Binding.Register(app);
-            ILRuntime_Runtime_Enviorment_AppDomain_Binding.Register(app);
-            ILRuntime_CLR_TypeSystem_IType_Binding.Register(app);
             UnityEngine_AssetBundle_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_GameObject_List_1_IEnumerator_Binding.Register(app);
             System_Collections_Generic_List_1_IEnumerator_Binding.Register(app);

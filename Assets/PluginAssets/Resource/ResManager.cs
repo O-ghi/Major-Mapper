@@ -11,6 +11,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 资源加载优先级
@@ -43,7 +44,7 @@ public class ResManager
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
                 instance = new ResManager();
             return instance;
         }
@@ -94,9 +95,9 @@ public class ResManager
     /// /// <param name="isLogicReq">是否是游戏逻辑</param>
     public void Request(string resName, System.Action<string> func, ResPriority priority = ResPriority.Async, bool isLogicReq = true)
     {
-#if UNITY_EDITOR && ONLY_PGAME
+#if UNITY_EDITOR && Main
         //khong can request bundle o editor neu dung assetdatabase
-        if (GameLauncher.useAssetDatabase_Enable == true)
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
         {
             if (func != null)
                 func(resName);
@@ -106,7 +107,7 @@ public class ResManager
 #if UNITY_EDITOR
         if (resName.Contains(" "))
             Debuger.Err("资源名包含空格", resName);
-        if(resName.ToLower() != resName)
+        if (resName.ToLower() != resName)
             Debuger.Err("资源名包含大写字母", resName);
 #endif
         if (string.IsNullOrEmpty(resName))
@@ -118,14 +119,15 @@ public class ResManager
         }
 
         //已加载
-        if(loadedAssetsMap.ContainsKey(resName))
+        if (loadedAssetsMap.ContainsKey(resName))
         {
-            if(func != null)
+            if (func != null)
             {
                 try
                 {
                     func(resName);
-                } catch(System.Exception e)
+                }
+                catch (System.Exception e)
                 {
                     Debuger.Err(e.Message, e.StackTrace);
                 }
@@ -133,33 +135,35 @@ public class ResManager
             return;
         }
 
-        if(false == _PriorityLegal(priority))
+        if (false == _PriorityLegal(priority))
         {
             Debuger.Wrn("资源加载优先级不合法");
             priority = ResPriority.Async;
         }
 
-        if(isLogicReq)
+        if (isLogicReq)
             logicMap[resName] = true;
 
         //是否使用一致的加载优先级
-        if(isPriorityUnited)
+        if (isPriorityUnited)
             priority = unitePriority;
 
         ///添加资源加载任务
-        if(loadingTaskMap.ContainsKey(resName))
+        if (loadingTaskMap.ContainsKey(resName))
         {
             loadingTaskMap[resName].AddCallback(priority, func);
-        } else
+        }
+        else
         {
             try
             {
                 //尝试GC
-                if(gcPolicyFunc != null)
+                if (gcPolicyFunc != null)
                     gcPolicyFunc();
                 else
                     _SimpleGCPolicy();
-            }catch(System.Exception e)
+            }
+            catch (System.Exception e)
             {
                 Debuger.Err(e.Message, e.StackTrace);
             }
@@ -177,7 +181,7 @@ public class ResManager
     /// <param name="priority">优先级</param>
     public void UnitePriority(bool unite, ResPriority priority = ResPriority.Async)
     {
-        if(false == _PriorityLegal(priority))
+        if (false == _PriorityLegal(priority))
         {
             Debuger.Wrn("资源加载优先级不合法");
             return;
@@ -193,9 +197,18 @@ public class ResManager
             ListStrongAsset.Add(resName);
         }
     }
+
+    public static void RemoveFromStrongAsset(string resName)
+    {
+        if (ListStrongAsset.Contains(resName))
+        {
+            ListStrongAsset.Remove(resName);
+        }
+    }
     //Duong check load 
-    private bool checkStrongAssetList(string resName) {
-        for(int i=0;i < ListStrongAsset.Count; i++)
+    private bool checkStrongAssetList(string resName)
+    {
+        for (int i = 0; i < ListStrongAsset.Count; i++)
         {
             //Debuger.Log("ListStrongAsset[i] +" + ListStrongAsset[i]);
             //Debuger.Log("resName +" + resName);
@@ -214,7 +227,7 @@ public class ResManager
     {
 
         GameAsset ga = null;
-        if(!loadedAssetsMap.ContainsKey(resName))
+        if (!loadedAssetsMap.ContainsKey(resName))
         {
             ga = new GameAsset();
             ga.Init(resName, ab, GetDependences(resName));
@@ -230,31 +243,33 @@ public class ResManager
             loadedAssetsMap.Add(resName, ga);
 
 
-        } else
+        }
+        else
         {
             Debuger.Log("==========资源加载重复了？？？？:" + resName);
             return;
         }
 
         //移除加载任务
-        if(loadingTaskMap.ContainsKey(ga.resName))
+        if (loadingTaskMap.ContainsKey(ga.resName))
         {
             ABLoadingTask abt = loadingTaskMap[ga.resName];
             var callback = abt.GetOutCallBack();
             loadingTaskMap.Remove(ga.resName);
-            if(callback != null)
+            if (callback != null)
             {
                 try
                 {
                     callback(resName);
-                }catch(System.Exception e)
+                }
+                catch (System.Exception e)
                 {
                     Debuger.Err(e.Message, e.StackTrace);
                 }
             }
         }
     }
-    
+
     /// <summary>
     /// 获取一个资源所依赖的资源列表
     /// </summary>
@@ -276,12 +291,12 @@ public class ResManager
     /// 添加引用
     internal void AddRef(string resName)
     {
-        if(loadedAssetsMap.ContainsKey(resName))
+        if (loadedAssetsMap.ContainsKey(resName))
             loadedAssetsMap[resName].AddRef();
         else
             Debuger.Err("找不到资源，无法添加引用 > " + resName);
     }
-    
+
 
 
     /// <summary>
@@ -301,17 +316,34 @@ public class ResManager
 
         if (string.IsNullOrEmpty(depName))
             depName = resName;
-#if UNITY_EDITOR && ONLY_PGAME
-        if (GameLauncher.useAssetDatabase_Enable == true)
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
         {
             Object o = editorLoadAsset<Object>(resName, depName);
-            //if (o is GameObject)
-            //{
-            //    GameObject go = o as GameObject;
-            //    Object copy = GameObject.Instantiate(go);
-            //    copy.name = go.name;
-            //    return copy;
-            //}
+            if (o is GameObject)
+            {
+                GameObject go = o as GameObject;
+                //
+                var obj = GameObject.Instantiate(go);
+
+
+                foreach (var render in obj.GetComponentsInChildren<Renderer>(true))
+                {
+
+                    Material[] arrMat = render.materials;
+                    Material[] newMat = new Material[arrMat.Length];
+                    for(int i =0; i < newMat.Length; i++)
+                    {
+                        //var mat = new Material(arrMat[i].shader);
+                        //mat.CopyPropertiesFromMaterial(arrMat[i]);
+                        newMat[i] = new Material(arrMat[i]);
+                    }
+                    render.materials = newMat;
+                }
+                //Object copy = GameObject.Instantiate(go);
+                obj.name = go.name;
+                return (Object)obj;
+            }
             return o;
         }
 
@@ -320,7 +352,7 @@ public class ResManager
         if (cachePool.ContainsKey(resName) && cachePool[resName].Count > 0)
         {
             GameObject go = cachePool[resName].Pop();
-            if(go != null)
+            if (go != null)
             {
                 go.SetActive(true);
                 return go;
@@ -330,18 +362,18 @@ public class ResManager
         }
 
         //从资源列表中查找
-        if(loadedAssetsMap.ContainsKey(resName))
+        if (loadedAssetsMap.ContainsKey(resName))
         {
             GameAsset ga = loadedAssetsMap[resName];
             ga.AddRef(); //添加引用
             Object o = ga.GetAsset(depName, type);
-            //if(o is GameObject)
-            //{
-            //    GameObject go = o as GameObject;
-            //    Object copy = GameObject.Instantiate(go);
-            //    copy.name = go.name;
-            //    return copy;
-            //}
+            if (o is GameObject)
+            {
+                GameObject go = o as GameObject;
+                Object copy = GameObject.Instantiate(go);
+                copy.name = go.name;
+                return copy;
+            }
             return o;
         }
         Debuger.Err("没有你要的资源，请先Request资源:" + resName + "," + depName);
@@ -380,8 +412,8 @@ public class ResManager
         if (string.IsNullOrEmpty(depName))
             depName = resName;
 
-#if UNITY_EDITOR && ONLY_PGAME
-        if (GameLauncher.useAssetDatabase_Enable == true)
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
         {
             callback(resName, depName, type);
             return;
@@ -391,7 +423,7 @@ public class ResManager
         //从资源列表中查找
         if (loadedAssetsMap.ContainsKey(resName))
         {
-            if(false == _PriorityLegal(priority))
+            if (false == _PriorityLegal(priority))
             {
                 Debuger.Wrn("资源加载优先级不合法");
                 priority = ResPriority.Async;
@@ -404,15 +436,8 @@ public class ResManager
     /// <summary>
     /// 获取资源，同步
     /// </summary>
-    public T LoadObjSync<T>(string resName, string depName) where T : Object
+    public T LoadObjSync<T>(string resName, string depName = null) where T : Object
     {
-        resName = resName.ToLower();
-        if (depName == null)
-        {
-            var assetName = resName.Split('/');
-            depName = assetName[assetName.Length - 1];
-        }
-        //Debuger.Log("resName " + resName + "  depName: " + depName);
         return LoadObjSync(resName, depName, typeof(T)) as T;
     }
 
@@ -421,6 +446,7 @@ public class ResManager
     /// </summary>
     public Object LoadObjSync(string resName, string depName = null, System.Type type = null)
     {
+
         if (string.IsNullOrEmpty(resName))
         {
             Debuger.Err("ResManager.LoadObjSync 资源名字为空");
@@ -432,13 +458,108 @@ public class ResManager
 
         Request(resName, null, ResPriority.Sync);
         Object obj = GetLoadedObj(resName, depName, type);
-        if(obj != null)
+        if (obj != null)
             return obj;
 
         Debuger.Wrn("ResManager.LoadObjSync 没有找到资源 >> " + resName);
         return null;
     }
+    public void UnLoadLevel(string sceneName)
+    {
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.UnloadSceneAsync(sceneName);
+            return;
+        }
+#endif
+        //Duong 14/9/23
+        if (loadedAssetsMap.ContainsKey(sceneName))
+        {
+            GameAsset ga = loadedAssetsMap[sceneName];
+            ga.RemoveRef();
+            //Debuger.Log("addRef for resname " + ga.refNum);
 
+        }
+
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(sceneName);
+    }
+    ///
+    /// 
+    /// 
+    public void LoadLevelSync(string sceneName, bool isAdditive, System.Action onCompleted)
+    {
+
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
+        {
+            string[] levelPaths = UnityEditor.AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(sceneName, sceneName);
+            if (levelPaths.Length == 0)
+            {
+                ///@TODO: The error needs to differentiate that an asset bundle name doesn't exist
+                //        from that there right scene does not exist in the asset bundle...
+
+                Debuger.Err("[AssetLoadManager]:There is no scene with name : " + sceneName + " in " + sceneName);
+                return;
+            }
+            CoroutineManager.Singleton.startCoroutine(doLoadScene(levelPaths[0], isAdditive, onCompleted));
+            return;
+
+        }
+#endif
+        //Duong 14/9/23 Do đổi cơ chế load scene từ prefab -> unity scene.
+        // dẫn đến lỗi không add ref riêng vs scene, scene bị unload sau 1 thời gian
+        // Sẽ addref và remove khi load và unload scene 
+        if (loadedAssetsMap.ContainsKey(sceneName))
+        {
+            GameAsset ga = loadedAssetsMap[sceneName];
+            ga.AddRef();
+            //Debuger.Log("addRef for resname " + ga.refNum);
+
+        }
+        //Truong hop load assetbundle o editor hoac load device
+        CoroutineManager.Singleton.startCoroutine(doLoadScene(sceneName, isAdditive, onCompleted));
+
+
+    }
+    private IEnumerator doLoadScene(string scenePath, bool isAdditive, System.Action onCompleted)
+    {
+        LoadSceneParameters loadSceneParameters = new LoadSceneParameters();
+
+        if (isAdditive)
+            loadSceneParameters.loadSceneMode = LoadSceneMode.Additive;
+        else
+            loadSceneParameters.loadSceneMode = LoadSceneMode.Single;
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
+        {
+            var m_Operation = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(scenePath, loadSceneParameters);   // KIET MARK 021122
+            while (!m_Operation.isDone)
+            {
+                yield return null;
+            }
+
+            onCompleted.Invoke();
+            yield break;
+        }
+#endif
+        var m_Request = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scenePath, loadSceneParameters);
+        while (!m_Request.isDone)
+        {
+            yield return null;
+        }
+
+#if UNITY_EDITOR
+        //Su ly them neu load assetbundle o editor, se 
+        var mainObj = GameObject.Find(scenePath);
+        if (mainObj != null)
+        {
+            GameAsset.GetShaderBack(mainObj);
+        }
+#endif
+        onCompleted.Invoke();
+
+    }
     /// <summary>
     /// 拖尾特效不能走缓存(TrailRenderer)
     /// 拖尾特效走缓存可能会出现拖尾从屏幕划过(重设位置导致, 需在实例化时指定位置)
@@ -451,16 +572,34 @@ public class ResManager
             Debuger.Err("ResManager.LoadObjSync 资源名字为空");
             return null;
         }
-#if UNITY_EDITOR && ONLY_PGAME
-        if (GameLauncher.useAssetDatabase_Enable == true)
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
         {
             Object o = editorLoadAsset<Object>(resName, resName);
             if (o is GameObject)
             {
-                GameObject go = o as GameObject;
-                GameObject copy = GameObject.Instantiate(go, pos, rot);
-                copy.name = go.name;
-                return copy;
+                GameObject go = o as GameObject; //spawn object
+                GameObject obj = GameObject.Instantiate(go, pos, rot);
+                obj.name = go.name;
+
+
+                foreach (var render in obj.GetComponentsInChildren<Renderer>(true))
+                {
+                    //Debuger.Log("Spawn obj Renderer name:" + render.name);
+
+                    Material[] arrMat = render.materials;
+                    Material[] newMat = new Material[arrMat.Length];
+                    for (int i = 0; i < newMat.Length; i++)
+                    {
+                        //var mat = new Material(arrMat[i].shader);
+                        //mat.CopyPropertiesFromMaterial(arrMat[i]);
+                        newMat[i] = new Material(arrMat[i]);
+                    }
+                    render.materials = newMat;
+                }
+                //Object copy = GameObject.Instantiate(go);
+                obj.name = go.name;
+                return obj;
             }
             else
             {
@@ -487,7 +626,8 @@ public class ResManager
                 GameObject copy = GameObject.Instantiate(go, pos, rot);
                 copy.name = go.name;
                 return copy;
-            }else
+            }
+            else
             {
                 if (o != null)
                     Debuger.Err("你要的资源不是一个GameObject", resName);
@@ -501,8 +641,8 @@ public class ResManager
     /// </summary>
     public void ReturnObj(string resName)
     {
-#if UNITY_EDITOR && ONLY_PGAME
-        if (GameLauncher.useAssetDatabase_Enable == true)
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
         {
             return;
         }
@@ -517,7 +657,8 @@ public class ResManager
         if (loadedAssetsMap.ContainsKey(resName))
         {
             loadedAssetsMap[resName].RemoveRef(); //减引用
-        } else
+        }
+        else
         {
             Debuger.Wrn("退还资源不在资源列表里：" + resName);
         }
@@ -556,14 +697,14 @@ public class ResManager
     /// </summary>
     public void RecycleObj(GameObject go)
     {
-        if(go == null)
+        if (go == null)
             return;
 
         string resName = go.name;
-        if(!cachePool.ContainsKey(resName))
+        if (!cachePool.ContainsKey(resName))
             cachePool.Add(resName, new Stack<GameObject>());
         //每种资源缓存上线
-        if(cachePool[resName].Count >= cacheMaxNum)
+        if (cachePool[resName].Count >= cacheMaxNum)
         {
             GameObject.DestroyImmediate(go);
             return;
@@ -573,7 +714,7 @@ public class ResManager
         cachePool[resName].Push(go);
         go.transform.SetParent(null, false);
         //从资源列表中查找,需要添加一个引用
-        if(loadedAssetsMap.ContainsKey(resName))
+        if (loadedAssetsMap.ContainsKey(resName))
         {
             GameAsset ga = loadedAssetsMap[resName];
             ga.AddRef();
@@ -590,18 +731,18 @@ public class ResManager
         GameAsset ga = null;
         string resName = null;
         var enu = cachePool.GetEnumerator();
-        while(enu.MoveNext())
+        while (enu.MoveNext())
         {
             ga = null;
             resName = enu.Current.Key;
-            if(loadedAssetsMap.ContainsKey(resName))
+            if (loadedAssetsMap.ContainsKey(resName))
                 ga = loadedAssetsMap[resName];
             var cache = enu.Current.Value;
-            while(cache.Count > leftMax)
+            while (cache.Count > leftMax)
             {
                 GameObject obj = cache.Pop();
                 GameObject.DestroyImmediate(obj);
-                if(ga != null)
+                if (ga != null)
                     ga.RemoveRef();
             }
         }
@@ -644,7 +785,7 @@ public class ResManager
     /// </summary>
     private bool _CanGC(string resName)
     {
-        if(constResMap.ContainsKey(resName))
+        if (constResMap.ContainsKey(resName))
             return false;
         return true;
     }
@@ -662,15 +803,16 @@ public class ResManager
 
         if (loadedAssetsMap.ContainsKey(resName))
         {
-            if(_CanGC(resName))
+            if (_CanGC(resName))
             {
                 GameAsset ga = loadedAssetsMap[resName];
-                if(ga.Unload(true))
+                if (ga.Unload(true))
                 {
                     loadedAssetsMap.Remove(resName);
                 }
             }
-        } else
+        }
+        else
         {
             Debuger.Wrn("GC资源不在资源列表里：" + resName);
         }
@@ -694,25 +836,25 @@ public class ResManager
         ///释放无引用的资源
         string resName = null;
         var enu = loadedAssetsMap.GetEnumerator();
-        while(enu.MoveNext())
+        while (enu.MoveNext())
         {
             resName = enu.Current.Key;
-            if(enu.Current.Value.refNum > 0)
+            if (enu.Current.Value.refNum > 0)
                 continue;
 
-            if(resName == name || (!mustEqual && resName.Contains(name)))
+            if (resName == name || (!mustEqual && resName.Contains(name)))
             {
-                if(_CanGC(resName))
+                if (_CanGC(resName))
                     toGCList.Add(resName);
             }
         }
         enu.Dispose();
 
-        for(int i = 0, len = toGCList.Count; i < len; ++i)
+        for (int i = 0, len = toGCList.Count; i < len; ++i)
         {
             resName = toGCList[i];
             GameAsset ga = loadedAssetsMap[resName];
-            if(ga.Unload(gcDep))
+            if (ga.Unload(gcDep))
             {
                 loadedAssetsMap.Remove(resName);
             }
@@ -768,14 +910,14 @@ public class ResManager
         List<string> toRemoveList = new List<string>();
         ///释放无引用的资源
         var enu = loadedAssetsMap.GetEnumerator();
-        while(enu.MoveNext())
+        while (enu.MoveNext())
         {
             ga = enu.Current.Value;
-            if(ga.refNum > 0)
+            if (ga.refNum > 0)
                 continue;
 
             resName = ga.resName;
-            if(_CanGC(resName) && ga.Unload())
+            if (_CanGC(resName) && ga.Unload())
             {
                 toRemoveList.Add(resName);
                 hasZeroRef = true;
@@ -784,12 +926,12 @@ public class ResManager
         enu.Dispose();
 
         ///已销毁的从资源列表移除
-        for(int i = 0, len = toRemoveList.Count; i < len; ++i)
+        for (int i = 0, len = toRemoveList.Count; i < len; ++i)
             loadedAssetsMap.Remove(toRemoveList[i]);
         toRemoveList.Clear();
 
         ///GC成功则再次GC，引用可能可以回收了
-        if(depGC && hasZeroRef)
+        if (depGC && hasZeroRef)
             GC();
     }
 
@@ -802,7 +944,7 @@ public class ResManager
     {
         tryGCNum++;
         //Debug.Log("Release try GC num: " + tryGCNum);
-        if(tryGCNum < gcTriggerNum)
+        if (tryGCNum < gcTriggerNum)
             return;
         tryGCNum = 0;
 
@@ -817,7 +959,7 @@ public class ResManager
     /// <param name="gcNum">逻辑资源gc个数</param>
     public void GCByTime(int gcNum = 20)
     {
-        if(gcTimeList.Count == 0)
+        if (gcTimeList.Count == 0)
         {
             //从小到大添加
             gcTimeList.Add(60);           //1分钟
@@ -832,41 +974,41 @@ public class ResManager
         //资源分时间段
         GameAsset ga = null;
         float deltaTime = 0;
-        for(int i = gcTimeList.Count - 1; i >= 0; --i)
+        for (int i = gcTimeList.Count - 1; i >= 0; --i)
         {
             var enu = loadedAssetsMap.Values.GetEnumerator();
-            while(enu.MoveNext())
+            while (enu.MoveNext())
             {
                 ga = enu.Current;
-                if(ga.refNum > 0)
+                if (ga.refNum > 0)
                     continue;
-                if(gcList.ContainsKey(ga.resName))
+                if (gcList.ContainsKey(ga.resName))
                     continue;
 
-                if(logicMap.ContainsKey(ga.resName) && _CanGC(ga.resName))
+                if (logicMap.ContainsKey(ga.resName) && _CanGC(ga.resName))
                 {
                     deltaTime = now - ga.lastRefTime;
-                    if(deltaTime > gcTimeList[i])
+                    if (deltaTime > gcTimeList[i])
                     {
                         gcList[ga.resName] = true;
-                        if(gcList.Count > gcNum)
+                        if (gcList.Count > gcNum)
                             break;
                     }
                 }
             }
             enu.Dispose();
-            if(gcList.Count > gcNum)
+            if (gcList.Count > gcNum)
                 break;
         }
 
         //统一GC
         string resName = null;
         var gcEnu = gcList.GetEnumerator();
-        while(gcEnu.MoveNext())
+        while (gcEnu.MoveNext())
         {
             resName = gcEnu.Current.Key;
             ga = loadedAssetsMap[resName];
-            if(ga.Unload(true))
+            if (ga.Unload(true))
             {
                 loadedAssetsMap.Remove(resName);
             }
@@ -882,7 +1024,7 @@ public class ResManager
     public void DebugAllRefNow()
     {
         Debuger.Wrn("当前引用计数：----------------------↓↓↓↓--------------------------" + loadedAssetsMap.Count);
-        foreach(GameAsset ga in loadedAssetsMap.Values)
+        foreach (GameAsset ga in loadedAssetsMap.Values)
             Debuger.Wrn("resName:" + ga.resName + "\trefNum: " + ga.refNum + "\tlastRefTime:" + ga.lastRefTime);
     }
 
@@ -896,21 +1038,28 @@ public class ResManager
 #endif
     }
 
+#if UNITY_EDITOR
+    public static T editorLoadModel<T>(string resName, string depName) where T : UnityEngine.Object
+    {
+        return editorLoadAsset<T>(resName, depName);
+    }
+#endif
+
     private static T editorLoadAsset<T>(string resName, string depName) where T : UnityEngine.Object
     {
-#if UNITY_EDITOR && ONLY_PGAME
-        if (GameLauncher.useAssetDatabase_Enable == false)
+#if UNITY_EDITOR && Main
+        if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == false)
             return default(T);
 
 #endif
 
 #if UNITY_EDITOR
+        //Debug.LogError(resName + " " + depName);
         //Duong : load ab in editor
         string A_1 = resName.ToLower();
         string A_2 = depName.ToLower();
         //Debug.Log("Load ab name: " + A_1 + "  || assetname:" + A_2);
-        string fileName = Path.GetFileNameWithoutExtension(A_2).ToLower();
-        string[] assetPathsFromAssetBundleAndAssetName = UnityEditor.AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(A_1, fileName);
+        string[] assetPathsFromAssetBundleAndAssetName = UnityEditor.AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(A_1, Path.GetFileNameWithoutExtension(A_2).ToLower());
         //Debug.Log("Path.HasExtension01: " + assetPathsFromAssetBundleAndAssetName.Length);
 
         string text = null;

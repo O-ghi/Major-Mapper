@@ -126,7 +126,7 @@ public class EditorPath
         {
             if (CurrentGuoShen == "No")
                 return "";
-            return GetGuoShenPath() + "/debug/PGameLogic.dll";
+            return GetGuoShenPath() + "/debug/GameLogic.dll";
         }
     }
 
@@ -136,7 +136,7 @@ public class EditorPath
         {
             if (CurrentGuoShen == "No")
                 return "";
-            return GetGuoShenPath() + "/release/PGameLogic.dll";
+            return GetGuoShenPath() + "/release/GameLogic.dll";
         }
     }
 
@@ -146,7 +146,7 @@ public class EditorPath
         {
             if (CurrentGuoShen == "No")
                 return "";
-            return GetGuoShenPath() + "/debug/PGameLogic.pdb";
+            return GetGuoShenPath() + "/debug/GameLogic.pdb";
         }
     }
 }

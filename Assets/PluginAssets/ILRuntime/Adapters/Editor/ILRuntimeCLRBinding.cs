@@ -110,7 +110,7 @@ public class ILRuntimeCLRBinding
     {
         //用新的分析热更dll调用引用来生成绑定代码
         ILRuntime.Runtime.Enviorment.AppDomain domain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntime.Runtime.ILRuntimeJITFlags.JITImmediately);
-        using (System.IO.FileStream fs = new System.IO.FileStream(Application.dataPath + "/../GameDll/PGameLogic.dll", System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        using (System.IO.FileStream fs = new System.IO.FileStream(Application.dataPath + "/../GameDll/GameLogic.dll", System.IO.FileMode.Open, System.IO.FileAccess.Read))
         {
             domain.LoadAssembly(fs);
             //Crossbind Adapter is needed to generate the correct binding code
@@ -129,7 +129,7 @@ public class ILRuntimeCLRBinding
 
         /*if (PlayerBuilderWindow.UseXILHotFix)
         {
-            System.IO.File.Copy(Application.dataPath + "/../GameDll/PGameLogic.dll", Application.dataPath + "/Plugins/PGameLogic.dll", true);
+            System.IO.File.Copy(Application.dataPath + "/../GameDll/GameLogic.dll", Application.dataPath + "/Plugins/GameLogic.dll", true);
             AssetDatabase.Refresh();
         }*/
     }
@@ -139,7 +139,7 @@ public class ILRuntimeCLRBinding
     {
         //用新的分析热更dll调用引用来生成绑定代码
         ILRuntime.Runtime.Enviorment.AppDomain domain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntime.Runtime.ILRuntimeJITFlags.JITImmediately);
-        using (System.IO.FileStream fs = new System.IO.FileStream(Application.dataPath + "/../GameDll_IOS/PGameLogic.dll", System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        using (System.IO.FileStream fs = new System.IO.FileStream(Application.dataPath + "/../GameDll_IOS/GameLogic.dll", System.IO.FileMode.Open, System.IO.FileAccess.Read))
         {
             domain.LoadAssembly(fs);
         }

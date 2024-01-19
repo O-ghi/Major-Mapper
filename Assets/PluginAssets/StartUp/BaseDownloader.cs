@@ -78,7 +78,7 @@ public class BaseDownloader
         //Debug.Log("Channel "+ ChannelManager.Channel);
         Debug.Log("ConfigTag " + LocalConfig.Singleton.ConfigTag);
 
-        return string.Format("");
+        return getOrgUrl();
     }
 
     protected virtual string getOrgUrl()

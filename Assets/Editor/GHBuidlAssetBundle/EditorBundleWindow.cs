@@ -730,22 +730,13 @@ public class EditorBundleWindow : EditorWindow
     private static void buildBundleLogicDll()
     {
         string androidPath = (PathUtil.DestDirAndroid + PathUtil.DllScriptBundleName).Replace(Application.dataPath, "Assets");
-        string iosPath = (PathUtil.DestDirIos + PathUtil.DllScriptBundleName).Replace(Application.dataPath, "Assets");
 
         switch (UnityEditor.EditorUserBuildSettings.activeBuildTarget)
         {
             case BuildTarget.Android:
                 AssetImporter.GetAtPath(androidPath)
                     .SetAssetBundleNameAndVariant(PathUtil.DllScriptAssignBundleName, null);
-                AssetImporter.GetAtPath(iosPath)
-                    .SetAssetBundleNameAndVariant(null, null);
-                break;
-
-            case BuildTarget.iOS:
-                AssetImporter.GetAtPath(androidPath)
-                    .SetAssetBundleNameAndVariant(null, null);
-                AssetImporter.GetAtPath(iosPath)
-                    .SetAssetBundleNameAndVariant(PathUtil.DllScriptAssignBundleName, null);
+                
                 break;
         }
     }
@@ -910,8 +901,8 @@ public class EditorBundleWindow : EditorWindow
         //begin assign
         //create preloadfiles
         int resourceCount = 0;
-        resourceCount = AssignAllBundleName();
-        int commonCount = AssignGroupCommonBundles();
+        //resourceCount = AssignAllBundleName();
+        //int commonCount = AssignGroupCommonBundles();
         //assign dll logic 
         buildBundleLogicDll();
         //int commonCount = 0;
@@ -921,7 +912,7 @@ public class EditorBundleWindow : EditorWindow
         {
             EditorUtility.DisplayDialog("Assign All Bundle", string.Format("{0}: {1} {2} \n{3}: {4} {5}"
       , "Assign Resource", resourceCount, "assets"
-      , "Assign Common", commonCount, "assets"
+      , "Assign Common", " 0 ", "assets"
       ), "Done");
         }
   
@@ -1596,7 +1587,7 @@ public class EditorBundleWindow : EditorWindow
     public void ProcessSynchronizedAndBuildDll()
     {
         //1.dong bo logic
-        TransferAssetTools.TransferAsset();
+        //TransferAssetTools.TransferAsset();
         //2.build dll theo tung flatform
         processLogicDll();
 

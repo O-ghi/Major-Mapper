@@ -41,31 +41,31 @@ public class PanelManager : ManagerTemplate<PanelManager>
     protected override void Update()
     {
         base.Update();
-        for(int i = 0; i < m_panels.Count; i++)
+        for (int i = 0; i < m_panels.Count; i++)
         {
             m_panels[i].GameUpdate();
         }
     }
-    public static UIBase SetPanel(string uiName)
+    public static UIBase SetPanel(string uiName, QuickVarList varlist = null)
     {
         if (PanelExits(uiName))
         {
-           return OpenPanel(uiName);
+            return OpenPanel(uiName, varlist);
         }
         GameObject panel = LoadPanel(uiName);
 
         var panelLogic = System.Activator.CreateInstance(Type.GetType(uiName)) as UIBase;
         panelLogic.gameObject = panel;
         panelLogic.GameAwake(panel.transform);
-        panelLogic.Initialization(null);
+        panelLogic.Initialization(varlist);
 
         m_panels.Add(panelLogic);
-        return panelLogic; 
+        return panelLogic;
     }
-    public static GameObject LoadPanel (string uiName)
+    public static GameObject LoadPanel(string uiName)
     {
-        
-        string uipath = Path.Combine(Application.streamingAssetsPath ,string.Format( "ui/{0}", uiName.ToLower()));
+
+        string uipath = Path.Combine(Application.streamingAssetsPath, string.Format("ui/{0}", uiName.ToLower()));
         //Debug.Log("_________Chay tu day! + uipath| " + uipath);
         AssetBundle assetBundle = AssetBundle.LoadFromFile(uipath);
         GameObject prefab = assetBundle.LoadAsset<GameObject>(uiName);
@@ -77,18 +77,21 @@ public class PanelManager : ManagerTemplate<PanelManager>
         go.transform.SetParent(Parent);
         go.transform.localPosition = Vector3.zero;
 
-        return go ;
+        return go;
     }
 
-    public static UIBase OpenPanel(string uiName)
+    public static UIBase OpenPanel(string uiName, QuickVarList varList)
     {
         var panel = GetPanel(uiName);
+        if (panel == null)
+            return SetPanel(uiName, varList);
         panel.gameObject.SetActive(true);
+        panel.Refresh(varList);
         return panel;
     }
     private static bool PanelExits(string uiName)
     {
-        for(int i = 0; i < m_panels.Count; i++)
+        for (int i = 0; i < m_panels.Count; i++)
         {
             if (m_panels[i].name.Equals(uiName))
             {
@@ -136,7 +139,7 @@ public class PanelManager : ManagerTemplate<PanelManager>
     }
     public static void DestroyPanel(string uiName, bool show = true)
     {
-        
+
     }
     private static void OnExitScene()
     {
@@ -162,6 +165,6 @@ public class PanelManager : ManagerTemplate<PanelManager>
             m_panels[i].gameObject.SetActive(false);
         }
 
-  
+
     }
 }

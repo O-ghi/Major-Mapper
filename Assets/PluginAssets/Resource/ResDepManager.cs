@@ -28,7 +28,7 @@ public class ResDepManager
     /// </summary>
     public void LoadDeps(bool forceReload = false)
     {
-#if UNITY_EDITOR && ONLY_PGAME
+#if UNITY_EDITOR && Main
         //chi load dependence khi su dung mode assetbundle
         if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == false)
         {
@@ -70,11 +70,11 @@ public class ResDepManager
         return true;
 #endif
     }
- 
+
     ///获取依赖
     public string[] GetDependence(string resName, bool includeMark = true)
     {
-#if UNITY_EDITOR && ONLY_PGAME
+#if UNITY_EDITOR && Main
         //Duong: Neu mode database thi return null, nguoc lai thi doc tu Assetbundle
         if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == true)
         {

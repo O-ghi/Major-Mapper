@@ -240,14 +240,7 @@ public class UIBase
     {
         Data = args;
         m_handler = handler;
-        if (m_luacode != null)
-        {
-            //if (!LuaManager.isDispose)
-            // m_luacode.UnRegister();
-            m_luacode.uiData = Data;
-            m_luacode.OnStart();
-            m_luacode.Register();
-        }
+        
         UnRegister();
         OnStart();
         Register();

@@ -20,7 +20,7 @@ public class LocalConfig
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
                 instance = new LocalConfig();
             return instance;
         }
@@ -58,7 +58,7 @@ public class LocalConfig
     private JSONClass json = null;
 
     private const string FORMAL_KEY = "formal";
-    private const string LOCAL_CONF_KEY = "LC_URL_ADREE_Key"; 
+    private const string LOCAL_CONF_KEY = "LC_URL_ADREE_Key";
 
     private bool localFake;
     private string cachePath = "";
@@ -79,7 +79,7 @@ public class LocalConfig
         //初始化路径
         string confPath = PathUtil.GetConfigPath();
         cachePath = confPath + PathUtil.BuildInVersionConfigName;
-        if(!Directory.Exists(confPath))
+        if (!Directory.Exists(confPath))
             Directory.CreateDirectory(confPath);
 
         //Initialize the json configuration inside and outside the package
@@ -99,7 +99,7 @@ public class LocalConfig
             }
         }
         TextAsset ta = Resources.Load<TextAsset>(Path.GetFileNameWithoutExtension(PathUtil.BuildInVersionConfigName));
-        if(ta != null)
+        if (ta != null)
             jsonIn = JSONClass.Parse(ta.text) as JSONClass;
 
         //获取当前配置
@@ -107,10 +107,10 @@ public class LocalConfig
         localFake = fakeName != FORMAL_KEY;
         JSONClass confJsonOut = null;
 
-        if(jsonOut != null)
+        if (jsonOut != null)
             confJsonOut = jsonOut[fakeName] as JSONClass;
         JSONClass confJsonIn = null;
-        if(jsonIn != null)
+        if (jsonIn != null)
             confJsonIn = jsonIn[fakeName] as JSONClass;
 
         //Judge whether to use the outside or the inside
@@ -119,7 +119,8 @@ public class LocalConfig
             // No external, the first package starts for the first time
             json = jsonIn;
             usingJson = confJsonIn;
-        }else if(VersionCompare.CompareVersion(confJsonIn["appVer"].Value, confJsonOut["appVer"].Value) != 0)
+        }
+        else if (VersionCompare.CompareVersion(confJsonIn["appVer"].Value, confJsonOut["appVer"].Value) != 0)
         {
             //The external version number is lower than the internal version number, the first start after the update
             //The external version number is higher than the internal version number, the old version is overwritten and installed to replace the new version
@@ -129,7 +130,8 @@ public class LocalConfig
                 IsOldApp = true;
             else
                 IsNewApp = true;
-        }else
+        }
+        else
         {
             //一般情况
             json = jsonOut;
@@ -155,9 +157,9 @@ public class LocalConfig
 #else
                //Channel cnd address list
         var channelUrl = json[FORMAL_KEY]["channelUrl"];
-        if(channelUrl[ChannelManager.ChannelName] != null)
+        if(channelUrl[""] != null)
         {
-            var urlsArr = channelUrl[ChannelManager.ChannelName] as JSONArray;
+            var urlsArr = channelUrl[""] as JSONArray;
             for (int i = 0; i < urlsArr.Count; ++i)
                 channelUrlList.Add(urlsArr[i].Value);
         }
@@ -176,7 +178,7 @@ public class LocalConfig
         if (usingJson != null && usingJson["appVer"] != null)
         {
             ConfigUrlList.Clear();
-            if(localFake)
+            if (localFake)
                 Debuger.Log("You found a great secret, the current fake configuration", fakeName);
 
             LocalAppVersion = usingJson["appVer"].AsInt;
@@ -209,35 +211,35 @@ public class LocalConfig
         }
 
         var enu = json.GetEnumerator();
-        while(enu.MoveNext())
+        while (enu.MoveNext())
         {
             var kv = (KeyValuePair<string, JSONNode>)enu.Current;
             Debuger.AddTrigger(kv.Value["cmd"].Value, onFakeTriggerd);
         }
         var dis = enu as IDisposable;
-        if(dis != null) dis.Dispose();
+        if (dis != null) dis.Dispose();
 
         //打包信息
-        if(jsonIn[FORMAL_KEY]["buildInfo"] != null)
+        if (jsonIn[FORMAL_KEY]["buildInfo"] != null)
         {
             Debuger.Log(jsonIn[FORMAL_KEY]["buildInfo"].ToString());
             BuildID = jsonIn[FORMAL_KEY]["buildInfo"]["buildID"].Value;
         }
 
-//#if UNITY_EDITOR
-//        ConfigTag = "debug";
-//#endif
+        //#if UNITY_EDITOR
+        //        ConfigTag = "debug";
+        //#endif
     }
 
     private void onFakeTriggerd(string trigger)
     {
         var enu = json.GetEnumerator();
-        while(enu.MoveNext())
+        while (enu.MoveNext())
         {
             var kv = (KeyValuePair<string, JSONNode>)enu.Current;
-            if(kv.Value["cmd"].Value == trigger)
+            if (kv.Value["cmd"].Value == trigger)
             {
-                if(kv.Key == FORMAL_KEY)
+                if (kv.Key == FORMAL_KEY)
                     Debuger.Log("你已经切回Formal配置，重启生效");
                 else
                     Debuger.Log("你发现了一个秘密，已切换至fake配置，重启生效", kv.Key);
@@ -247,24 +249,17 @@ public class LocalConfig
             }
         }
         var dis = enu as IDisposable;
-        if(dis != null) dis.Dispose();
+        if (dis != null) dis.Dispose();
     }
 
     public void MakeUrlList(string urlSuffix, List<string> list)
     {
         list.Clear();
-        for (int i = 0; i < channelUrlList.Count; ++i)
-        {
-            if (urlSuffix.StartsWith("http"))
-            {
-                list.Add(urlSuffix);
-                break;
-            }
-            else
-            {
-                list.Add(channelUrlList[i] + urlSuffix);
-            }
-        }
+
+
+        list.Add(urlSuffix);
+
+
     }
     public void MakeHistoryUrlList(string urlSuffix, List<string> list)
     {
@@ -280,21 +275,14 @@ public class LocalConfig
             {
                 list.Add(urlSuffix);
                 break;
-            }else
+            }
+            else
             {
                 list.Add(loginUrlList[i] + urlSuffix);
             }
         }
     }
 
-    public string GetChannelUrl(int idx = 0)
-    {
-        if (idx < 0)
-            idx = 0;
-        if (idx >= channelUrlList.Count)
-            idx = 0;
-        return channelUrlList[idx];
-    }
 
     /// <summary>
     /// 更新本地配置
@@ -304,14 +292,15 @@ public class LocalConfig
     /// <param name="forceResVer"></param>
     public void SaveToLocal(int forceResVer)
     {
-        if(json != null)
+        if (json != null)
         {
             LocalForceResVersion = forceResVer;
             usingJson["forceResVer"].AsInt = forceResVer;
             try
             {
                 json.SaveToFile(cachePath);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Debuger.Err("写入磁盘出错 LocalConfig", e.Message, e.StackTrace);
                 //StartupTip.Singleton.TipWriteFileError(GetType().Name, null);

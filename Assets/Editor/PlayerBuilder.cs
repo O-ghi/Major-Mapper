@@ -20,7 +20,7 @@ public class PlayerBuilder
     [MenuItem("Tools/Player/TestABDll", false, 1)]
     public static void BuildTestABDll()
     {
-        var path = Application.dataPath + "/../../code/trunk/PGameLogic/";
+        var path = Application.dataPath + "/../../code/trunk/GameLogic/";
         var dllBat = new System.Diagnostics.Process();
         dllBat.StartInfo.WorkingDirectory = path;
         dllBat.StartInfo.FileName = path + "build_android_release.bat";

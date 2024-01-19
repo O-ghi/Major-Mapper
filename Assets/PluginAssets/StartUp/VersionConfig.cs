@@ -148,18 +148,8 @@ public class VersionConfig : BaseDownloader
                 if (!string.IsNullOrEmpty(key))
                     PathUtil.ByteCode = key;
 
-                if (json["cdnUrl"].Value.StartsWith("http"))
-                    CDNPath = json["cdnUrl"].Value;
-                else
-                    CDNPath = LocalConfig.Singleton.GetChannelUrl() + json["cdnUrl"].Value;
+               
 
-                //2021/07/30 HRP TOAN ADD STT
-                if (json["logUrl"].Value.StartsWith("http"))
-                    LogPath = json["logUrl"].Value;
-                else
-                    LogPath = LocalConfig.Singleton.GetChannelUrl() + json["logUrl"].Value;
-                //2021/07/30 HRP TOAN ADD END
-                //
 
                 //网址
                 LocalConfig.Singleton.MakeUrlList(json["appUrl"].Value, AppUrlList);

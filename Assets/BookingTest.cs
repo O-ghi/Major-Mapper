@@ -34,11 +34,14 @@ public class BookingTest : MonoBehaviour
         if (networkingManagerInstance == null)
         {
             Debug.LogError("NetworkingManager instance not found.");
-            return;
+            
+        } else
+        {
+            networkingManagerInstance.OnLoginSuccess += OnLoginSuccessHandler;
+
         }
 
         // Handle the event
-        networkingManagerInstance.OnLoginSuccess += OnLoginSuccessHandler;
         // Bind book button click event
         GameObject detailsPanel = GameObject.Find("DetailsPanel");
         informationButton.onClick.AddListener(OnInformationButtonClick);
@@ -156,9 +159,9 @@ public class BookingTest : MonoBehaviour
     private IEnumerator CreatePaymentUrl()
     {
         // Create PaymentData object
-        PaymentData paymentData = new PaymentData();
+        PaymentDataTest paymentData = new PaymentDataTest();
         paymentData.playerId = playerId;
-        paymentData.testId = testId;
+        paymentData.testId = 2;
 
         // Convert data to JSON payload
         string jsonData = JsonUtility.ToJson(paymentData);
@@ -212,7 +215,17 @@ public class BookingTest : MonoBehaviour
         public string description;
         public string secureHash;
     }
-
+    [Serializable]
+    public class PaymentDataTest
+    {
+        public int playerId;
+        public int testId;
+        public string orderId;
+        public string transactionId;
+        public int amount;
+        public string description;
+        public string secureHash;
+    }
     [Serializable]
     public class RootObject
     {

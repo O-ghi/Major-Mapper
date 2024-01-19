@@ -28,7 +28,7 @@ public class ResDepManager
     /// </summary>
     public void LoadDeps(bool forceReload = false)
     {
-#if UNITY_EDITOR && ONLY_PGAME
+#if UNITY_EDITOR && Main
         //chi load dependence khi su dung mode assetbundle
         if (UnityEditor.EditorPrefs.GetBool("useAssetDatabase_Enable", true) == false)
         {
