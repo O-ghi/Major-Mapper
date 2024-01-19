@@ -1,7 +1,9 @@
-﻿using System;
+﻿using AgoraIO.Media;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -27,11 +29,20 @@ public class NetworkingManager : MonoBehaviour
     public InputField DateofBirthInputField;
     public InputField PhoneInputField;
     public InputField inputUsernameField;
+    public GameObject notificaPanel;
 
 
     //Login
     public InputField LoginEmailInputField;
     public InputField LoginPasswordInputField;
+    public GameObject invalidEmailPanel;
+    public GameObject registrationSuccessPanel;
+    public GameObject emailPanel;
+    public GameObject passwordPanel;
+    public GameObject phonePanel;
+    public GameObject DobPanel;
+    public GameObject loginPanel;
+
 
     void Awake()
     {
@@ -52,6 +63,12 @@ public class NetworkingManager : MonoBehaviour
     {
         instance = this;
         GameObject.DontDestroyOnLoad(gameObject);
+        invalidEmailPanel.SetActive(false);
+        notificaPanel.SetActive(false);
+        emailPanel.SetActive(false);
+        passwordPanel.SetActive(false);
+        phonePanel.SetActive(false);
+        DobPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -59,9 +76,71 @@ public class NetworkingManager : MonoBehaviour
     {
 
     }
-
+    public void OnSuccessPanelButtonClick()
+    {
+        registrationSuccessPanel.SetActive(false);
+        loginPanel.SetActive(true);
+    }
+    public void OnConfirmButtonClicked()
+    {
+        // Hiển thị "Success Panel"
+        registrationSuccessPanel.SetActive(true);
+    }
     public void OnRegButton()
     {
+        Debug.Log("OnRegButton Clicked");
+
+        if (string.IsNullOrEmpty(UsernameInputField.text) ||
+            string.IsNullOrEmpty(EmailInputField.text) ||
+            string.IsNullOrEmpty(PasswordInputField.text) ||
+            string.IsNullOrEmpty(ConfirmPasswordInputField.text) ||
+            string.IsNullOrEmpty(SexInputField.text) ||
+            string.IsNullOrEmpty(AddressInputField.text) ||
+            string.IsNullOrEmpty(DateofBirthInputField.text) ||
+            string.IsNullOrEmpty(PhoneInputField.text))
+        {
+            // Display the notification panel with the error message
+            notificaPanel.SetActive(true);
+            return;
+        }
+
+        if (!IsValidEma(EmailInputField.text))
+        {
+            emailPanel.SetActive(true);
+            return;
+        }
+
+        if (PasswordInputField.text != ConfirmPasswordInputField.text)
+        {
+            passwordPanel.SetActive(true);
+            return;
+        }
+
+        string phoneInput = PhoneInputField.text;
+        if (!phoneInput.StartsWith("0") || phoneInput.Length != 10 || !IsNumeric(phoneInput))
+        {
+            phonePanel.SetActive(true);
+            return;
+        }
+
+        DateTime dateOfBirth;
+        if (!DateTime.TryParse(DateofBirthInputField.text, out dateOfBirth))
+        {
+            DobPanel.SetActive(true);
+            return;
+        }
+
+        // Check if the player is at least 12 years old
+        TimeSpan ageDifference = DateTime.Now - dateOfBirth;
+        int age = (int)(ageDifference.Days / 365.25);
+
+        if (age < 12)
+        {
+            DobPanel.SetActive(true);
+            return;
+        }
+
+
         Register tempReg = new Register()
         {
             name = UsernameInputField.text,
@@ -69,18 +148,41 @@ public class NetworkingManager : MonoBehaviour
             password = PasswordInputField.text,
             confirmPassword = ConfirmPasswordInputField.text,
             gender = SexInputField.text,
-            role = 3,
+            roleId = 3,
             address = AddressInputField.text,
             doB = DateofBirthInputField.text,
             phone = PhoneInputField.text
         };
+
         StartCoroutine(Register(tempReg));
+    }
+
+    private bool IsNumeric(string input)
+    {
+        return int.TryParse(input, out _);
+    }
+
+    private bool IsValidEma(string email)
+    {
+        // You can use a simple regular expression for basic email validation
+        string emailPattern = @"^[a-zA-Z0-9_.+-]+@gmail\.com$";
+        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(emailPattern);
+        return regex.IsMatch(email);
     }
 
     public void OnLogInButton(/*string email, string password*/)
     {
+        string email = LoginEmailInputField.text;
+        if (!IsValidEmail(email))
+        {
+            // Show the invalid email panel
+            invalidEmailPanel.SetActive(true);
+            // You may want to set a timer to hide the panel after a few seconds
+            return; // Exit the OnLogInButton method if email syntax is invalid.
+        }
         StartCoroutine(LogIn(/*email, password*/));
     }
+
 
     public void OnFakeData()
     {
@@ -198,20 +300,26 @@ public class NetworkingManager : MonoBehaviour
         uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
 
         uwr.SetRequestHeader("Content-Type", "application/json");
-
+        
         yield return uwr.SendWebRequest();
 
-        if (uwr.result == UnityWebRequest.Result.ConnectionError)
+
+        if (uwr.result == UnityWebRequest.Result.ConnectionError || !string.IsNullOrEmpty(uwr.error))
         {
             Debug.Log("Error: " + uwr.error);
         }
         else
         {
             Debug.Log("Success: " + uwr.downloadHandler.text);
+
+            // Show registration success panel
+            registrationSuccessPanel.SetActive(true);
+            // You may want to set a timer to hide the panel after a few seconds
         }
     }
 
-    public IEnumerator LogIn(/*string email, string password*/)
+
+public IEnumerator LogIn(/*string email, string password*/)
     {
         string email = LoginEmailInputField.text;
         string password = LoginPasswordInputField.text;

@@ -16,7 +16,7 @@ public class Register
     public string password;
     public string confirmPassword;
     public string gender;
-    public int role;
+    public int roleId;
     public string doB;
     public string address;
     public string phone;
